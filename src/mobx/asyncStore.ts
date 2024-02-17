@@ -1,15 +1,15 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable } from "mobx"
 
 class Async {
-  isLoading = false;
+  isLoading: boolean = false
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this)
   }
 
-  setIsLoading = (isLoading) => {
-    this.isLoading = isLoading;
-  };
+  setIsLoading = (isLoading: boolean) => {
+    this.isLoading = isLoading
+  }
 }
 
-export const AsyncStore = new Async();
+export const AsyncStore = new Async()

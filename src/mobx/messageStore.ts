@@ -1,14 +1,14 @@
 import { makeAutoObservable } from "mobx"
 
 class Message {
-  message = ""
-  status = 0
+  message: string = ""
+  status: number = 0
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  setMessage = (msg, st) => {
+  setMessage = (msg: string, st: number) => {
     this.message = msg
     this.status = st
   }

@@ -1,17 +1,20 @@
-import { makeAutoObservable } from "mobx";
-import { navNames } from "..//util";
+import { NavNames } from "@/util"
+import { autorun, makeAutoObservable } from "mobx"
 
 class Nav {
-  selectedName = navNames.home;
-
+  nav: string = NavNames.home
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this)
   }
 
-  setSelectedName = (name) => {
-    console.log(name);
-    this.selectedName = name;
-  };
+  setNav = (n: string) => {
+    this.nav = n
+  }
 }
 
-export const navStore = new Nav();
+const navStore = new Nav()
+export default navStore
+
+autorun(() => {
+  console.log(navStore.nav)
+})

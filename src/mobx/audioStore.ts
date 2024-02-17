@@ -1,12 +1,11 @@
 import { makeAutoObservable } from "mobx"
 import React, { useState, useEffect } from "react"
 import { Howl } from "howler"
-import { UserStore } from "./userStore"
 
-let timesInterval = 0
+let timesInterval: any = null
 class Audio {
-  sound = null
-  time = 0
+  sound: any = null
+  time: number = 0
 
   constructor() {
     makeAutoObservable(this)
@@ -20,11 +19,11 @@ class Audio {
   stopTime() {
     clearInterval(timesInterval)
   }
-  setTime(newTime) {
+  setTime(newTime: number) {
     this.time = newTime
   }
 
-  setSound = (initialFileName) => {
+  setSound = (initialFileName: string) => {
     this.sound = new Howl({
       src: [initialFileName],
       loop: true,
