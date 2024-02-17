@@ -1,9 +1,9 @@
 import { useState } from "react"
 
-import { ModalStore } from "mobx/modalStore"
+import { ModalStore } from "@/mobx/modalStore"
 import { observer } from "mobx-react-lite"
 
-import SuccessButton from "ui/button/modal/success"
+import SuccessButton from "@/ui/button/modal/success"
 
 const SuccessModal = observer(
   ({ title, modalName, message, onClick, btnTxt }) => {

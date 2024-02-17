@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from "react"
 import { BiTime } from "react-icons/bi"
 import { SiCounterstrike } from "react-icons/si"
-import { getTime, modals } from "@/util"
-import { ModalStore } from "mobx/modalStore"
-import SuccessModal from "components/modal/message/success"
+import { getTime, modals, practiceType } from "@/util"
+import { ModalStore } from "@/mobx/modalStore"
+import SuccessModal from "@/components/modal/message/success"
 
-import { UserStore } from "mobx/userStore"
+import { userStore } from "@/mobx/userStore"
 import { observer } from "mobx-react-lite"
-import { addPracticeApi } from "firebaseDb"
-import { messageStore } from "mobx/messageStore"
-import { useUser } from "context/userContext"
+import { addPracticeApi } from "@/api"
+import { messageStore } from "@/mobx/messageStore"
+import { Practice } from "@/api/practice/interfaces"
 
 const Left = observer(
   ({ setAffirmations, affirmations, handleKeyDown, inputRef, setTxt, txt }) => {
     const [modalMessage, setModalMessage] = useState("")
-
-    const user = useUser()
-    // console.log({ user })
 
     useEffect(() => {
       if (affirmations.length >= process.env.NEXT_PUBLIC_AFFIRMATION_LIM) {
@@ -26,8 +23,13 @@ const Left = observer(
 
     const addPractice = async () => {
       try {
-        const practices = await addPracticeApi(user, { voice: 0, type: 1 })
-        UserStore.updateUser({ practices })
+        const newPractice: Practice = {
+          userId: userStore.user.uid,
+          affirmationId: "affirmationId1",
+          type: practiceType.TYPE,
+        }
+        const practices = await addPracticeApi(userStore.user.uid, newPractice)
+        userStore.updateUser({ practices })
 
         setAffirmations([])("affirmations", "[]")
         setModalMessage("practice Added")
@@ -66,7 +68,7 @@ const Left = observer(
         flex-col gap-4 px-6 py-3"
           >
             <div className="text-lg font-bold">
-              {UserStore.user?.affirmation}
+              {userStore.user?.affirmation}
             </div>
             <div className="flex justify-end items-center gap-3">
               <div className="h-full mr-auto  w-full">

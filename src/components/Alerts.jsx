@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite"
-import { messageStore } from "mobx/messageStore"
+import { messageStore } from "@/mobx/messageStore"
 import React, { useEffect } from "react"
 let timeoutInter = null
 const Alerts = observer(() => {

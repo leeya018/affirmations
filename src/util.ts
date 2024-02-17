@@ -46,6 +46,7 @@ export const navNames = {
   insights: "insights",
   calender: "calender",
   settings: "settings",
+  login: "login",
 }
 
 export const modals = {
@@ -67,3 +68,12 @@ export const storageNames = {
 //   login: "login",
 //   signup: "signup",
 // }
+
+export const practiceType = {
+  TYPE: "type",
+  VOICE: "voice",
+}
+export const folderNames = {
+  IMAGES: "images",
+  AUDIOS: "audios",
+}

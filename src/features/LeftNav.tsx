@@ -3,9 +3,10 @@ import { HiOutlineHome } from "react-icons/hi"
 import { BsGraphUpArrow } from "react-icons/bs"
 import { SlCalender } from "react-icons/sl"
 import { IoSettingsOutline } from "react-icons/io5"
-import { navStore } from "mobx/navStore"
-import { navNames } from "/util"
+
 import { observer } from "mobx-react-lite"
+import navStore from "@/mobx/navStore"
+import { navNames } from "@/util"
 
 const LeftNav = observer(() => {
   const { setSelectedName, selectedName } = navStore

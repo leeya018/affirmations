@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react"
 import Image from "next/image"
-import { UserStore } from "mobx/userStore"
+
 import Person2Icon from "@mui/icons-material/Person2"
 import { observer } from "mobx-react-lite"
 import { signOut } from "firebase/auth"
 import { auth } from "@/firebase"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { IoMdExit } from "react-icons/io"
-import { TooltipDefault } from "ui/Tooltip"
+
+import { userStore } from "@/mobx/userStore"
+import { TooltipDefault } from "@/ui/Tooltip"
 
 const Nav = observer(() => {
   const [photoURL, setPhotoURL] = useState("")
@@ -16,7 +18,7 @@ const Nav = observer(() => {
 
   const logout = () => {
     signOut(auth)
-    UserStore.setUser(null)
+    userStore.setUser(null)
 
     router.push("/login")
   }

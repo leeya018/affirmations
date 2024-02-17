@@ -1,3 +1,4 @@
+import { User } from "@/api/user/interfaces"
 import { makeAutoObservable } from "mobx"
 
 class UserS {

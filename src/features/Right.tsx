@@ -5,22 +5,21 @@ import { BiTime } from "react-icons/bi"
 import { LiaStopCircle } from "react-icons/lia"
 import Timer from "../components/Timer"
 import SuccessModal from "../components/modal/message/success"
-import { addPracticeApi } from "firebaseDb"
-import { ModalStore } from "mobx/modalStore"
-import { modals } from "@/util"
-import { UserStore } from "mobx/userStore"
+import { addPracticeApi } from "@/api"
+import { ModalStore } from "@/mobx/modalStore"
+import { modals, practiceType } from "@/util"
+import { userStore } from "@/mobx/userStore"
 import { observer } from "mobx-react-lite"
 import { TfiAnnouncement } from "react-icons/tfi"
-import SuccessButton from "ui/button/modal/success"
-import { AudioStore } from "mobx/audioStore"
-import { messageStore } from "mobx/messageStore"
-import { useUser } from "context/userContext"
+import SuccessButton from "@/ui/button/modal/success"
+import { AudioStore } from "@/mobx/audioStore"
+import { messageStore } from "@/mobx/messageStore"
+import { Practice } from "@/api/practice/interfaces"
 
 function Right({ affirmations, setAffirmations }) {
   const [modalMessage, setModalMessage] = useState("")
-  console.log("imageAffirmation", UserStore.user?.imageAffirmation)
+  console.log("imageAffirmation", userStore.user?.imageAffirmation)
 
-  const user = useUser()
   useEffect(() => {
     if (AudioStore.time > process.env.NEXT_PUBLIC_AUDIO_LIM) {
       AudioStore.stopTime()
@@ -30,10 +29,10 @@ function Right({ affirmations, setAffirmations }) {
   }, [AudioStore.time])
 
   useEffect(() => {
-    if (UserStore?.user?.audioAffirmation) {
-      AudioStore.setSound(UserStore?.user?.audioAffirmation)
+    if (userStore?.user?.audioAffirmation) {
+      AudioStore.setSound(userStore?.user?.audioAffirmation)
     }
-  }, [UserStore?.user?.audioAffirmation])
+  }, [userStore?.user?.audioAffirmation])
 
   const playSuggestion = () => {
     AudioStore.playSound()
@@ -45,9 +44,14 @@ function Right({ affirmations, setAffirmations }) {
   }
   const addPractice = async () => {
     try {
-      const data = await addPracticeApi(user, { voice: 1, type: 0 })
+      const newPractice: Practice = {
+        userId: userStore.user.uid,
+        affirmationId: "affirmationId1",
+        type: practiceType.VOICE,
+      }
+      const data = await addPracticeApi(userStore.user.uid, newPractice)
       console.log(data)
-      setModalMessage(data.message)
+      setModalMessage("newPractice added successfully")
       stopSuggestion()
       AudioStore.setTime(0)
       messageStore.setMessage("Practice added successfully", 200)
@@ -145,7 +149,7 @@ function Right({ affirmations, setAffirmations }) {
               affirmations.length /
               parseInt(process.env.NEXT_PUBLIC_AFFIRMATION_LIM),
           }}
-          src={UserStore.user?.imageAffirmation}
+          src={userStore.user?.imageAffirmation}
           // src={"/smile.png"}
         />
       </div>

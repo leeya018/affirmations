@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { ModalStore } from "mobx/modalStore"
+import { ModalStore } from "@/mobx/modalStore"
 import { observer } from "mobx-react-lite"
 
 const LoadingModal = observer(({ message, modalName, title }) => {

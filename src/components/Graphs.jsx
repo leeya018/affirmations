@@ -1,7 +1,7 @@
 import React from "react"
 
 import StackChart from "./StackChart"
-import { UserStore } from "mobx/userStore"
+// import { userStore } from "@/mobx/userStore"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,11 +12,12 @@ import {
   Legend,
 } from "chart.js"
 import { observer } from "mobx-react-lite"
+import { userStore } from "@/mobx/userStore"
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const Graphs = observer(() => {
-  const { user } = UserStore
+  const { user } = userStore
 
   return (
     <div className="  w-full shadow-rl rounded-xl bg-white h-[85vh] shadow-lg flex justify-center items-center md:w-[90vw] ">

@@ -1,21 +1,15 @@
 import React, { use, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 
-import { AsyncStore } from "mobx/asyncStore"
-import SettingsButton from "ui/button/settings"
-import { UserStore } from "mobx/userStore"
+import { AsyncStore } from "@/mobx/asyncStore"
+import SettingsButton from "@/ui/button/settings"
+import { userStore } from "@/mobx/userStore"
 import { observer } from "mobx-react-lite"
-import BasicSelect from "ui/basicSelect"
-import { storageNames } from "@/util"
-import {
-  addAudioApi,
-  updateUserApi,
-  addImageApi,
-  changeAffirmationApi,
-  getFilesByUserApi,
-} from "firebaseDb"
-import { messageStore } from "mobx/messageStore"
-import Alerts from "components/Alerts"
+import BasicSelect from "@/ui/basicSelect"
+import { folderNames, storageNames } from "@/util"
+import { addFileApi, getFilesApi, updateAffirmationApi } from "@/api"
+import { messageStore } from "@/mobx/messageStore"
+import Alerts from "@/components/Alerts"
 
 function Settings() {
   const [affirmation, setAffirmation] = useState("")
@@ -39,8 +33,8 @@ function Settings() {
   })
 
   useEffect(() => {
-    setAffirmation(UserStore.user?.affirmation)
-  }, [UserStore.user])
+    setAffirmation(userStore.user?.affirmation)
+  }, [userStore.user])
 
   useEffect(() => {
     getSources()
@@ -48,9 +42,10 @@ function Settings() {
 
   const getSources = async () => {
     try {
+      const { uid } = userStore.user
       const res = await Promise.all([
-        getFilesByUserApi(user, storageNames.images),
-        getFilesByUserApi(user, storageNames.audios),
+        getFilesApi(uid, storageNames.images),
+        getFilesApi(uid, storageNames.audios),
       ])
       console.log({ res })
       setImageItemOptions(res[0])
@@ -67,11 +62,11 @@ function Settings() {
       setImage(event.target.files[0])
     }
   }
-  const editUser = async (userInfo) => {
+  const updateAffirmation = async (userInfo) => {
     try {
       console.log({ userInfo })
-      const data = await updateUserApi(user, userInfo)
-      UserStore.updateUser(userInfo)
+      const data = await updateAffirmationApi(userStore, userInfo)
+      userStore.updateUser(userInfo)
       console.log(data)
       messageStore.setMessage("user update successfully ", 200)
     } catch (error) {
@@ -95,7 +90,7 @@ function Settings() {
       AsyncStore.setIsLoading(true)
       await changeAffirmationApi(user, affirmation)
       setIsAffirmationChanged(false)
-      UserStore.updateUser({ affirmation })
+      userStore.updateUser({ affirmation })
 
       AsyncStore.setIsLoading(false)
 
@@ -111,7 +106,7 @@ function Settings() {
         throw new Error("You have to  choose file first")
       }
       const downloadURL = await addImageApi(user, image)
-      UserStore.updateUser({
+      userStore.updateUser({
         imageAffirmation: downloadURL,
       })
 
@@ -120,15 +115,15 @@ function Settings() {
       messageStore.setMessage("cannot upload image ", 500)
     }
   }
-  const addAudio = async () => {
+  const addAudio = async (folderName) => {
     try {
       if (!file) {
         updateMessage("audio", `you have to  choose audio file first `, false)
 
         return null
       }
-      const downloadURL = await addAudioApi(user, file)
-      UserStore.updateUser({
+      const downloadURL = await addFileApi(userStore.user.uid, file, folderName)
+      userStore.updateUser({
         audioAffirmation: downloadURL,
       })
       messageStore.setMessage("Audio added successfully", 200)
@@ -185,7 +180,7 @@ function Settings() {
               name="images select"
             />
             <SettingsButton
-              onClick={() => editUser({ imageAffirmation: imageUrl })}
+              onClick={() => updateAffirmation({ imageAffirmation: imageUrl })}
               isDisabled={imageUrl === null}
             >
               Update Image
@@ -198,7 +193,10 @@ function Settings() {
               className="filetype  border-[#d4d6db] rounded-md w-[20rem] h-12 pr-2"
             />
 
-            <SettingsButton isDisabled={image === null} onClick={addImage}>
+            <SettingsButton
+              isDisabled={image === null}
+              onClick={() => addFileApi(folderNames.IMAGES)}
+            >
               Upload Image
             </SettingsButton>
             <Image
@@ -238,7 +236,10 @@ function Settings() {
               className="filetype border-[#d4d6db] rounded-md w-[20rem] h-12 pr-2"
             />
 
-            <SettingsButton onClick={addAudio} isDisabled={file === null}>
+            <SettingsButton
+              onClick={() => addAudio(folderNames.AUDIOS)}
+              isDisabled={file === null}
+            >
               Upload Audio
             </SettingsButton>
           </div>

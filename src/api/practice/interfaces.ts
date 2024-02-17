@@ -4,5 +4,5 @@ export type Practice = {
   userId: string
   affirmationId: string
   type: string
-  createdDate: Timestamp
+  createdDate?: Timestamp
 }

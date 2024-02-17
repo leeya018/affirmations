@@ -3,11 +3,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker"
 import { formatDate } from "@/util"
-import { UserStore } from "mobx/userStore"
+
 import PieChart from "./PieChart"
 import moment from "moment"
 import { toJS } from "mobx"
 import { observer } from "mobx-react-lite"
+import { userStore } from "@/mobx/userStore"
 const maxPoints = 3
 
 const Calender = observer(() => {
@@ -15,17 +16,17 @@ const Calender = observer(() => {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    if (!UserStore.user?.practices) return
-    console.log("UserStore.user", toJS(UserStore.user))
+    if (!userStore.user?.practices) return
+    console.log("userStore.user", toJS(userStore.user))
     const data = getPractices()
     console.log("data", data)
     setData(data)
-  }, [currDate, UserStore.user])
+  }, [currDate, userStore.user])
 
   const getPractices = () => {
     console.log("getPractices s")
 
-    const foundPractice = UserStore.user?.practices.find(
+    const foundPractice = userStore.user?.practices.find(
       (p) => p.date === formatDate(currDate)
     )
     if (!foundPractice) return [0, 0, maxPoints]

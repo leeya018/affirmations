@@ -4,6 +4,7 @@ import {
   doc,
   getDoc,
   query,
+  serverTimestamp,
   updateDoc,
   where,
 } from "firebase/firestore"
@@ -17,7 +18,10 @@ export const addPracticeApi = async (uid: string, practice: Practice) => {
       throw new Error(`User with id : ${uid} not found`)
     }
     const collectionRef = collection(db, "practices")
-    const docRef = await addDoc(collectionRef, practice)
+    const docRef = await addDoc(collectionRef, {
+      practice,
+      createdAt: serverTimestamp(),
+    })
     console.log("practices added")
     return docRef.id
   } catch (error: any) {
