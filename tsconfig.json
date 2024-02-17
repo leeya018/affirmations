@@ -34,7 +34,8 @@
     "src/api/**/*.ts",
     "src/context/*.jsx",
     "src/firebaseDb/**.js",
-    "src/features/**.js"
+    "src/features/**.js",
+    "src/firebase.js"
   ],
   "exclude": ["node_modules"]
 }

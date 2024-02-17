@@ -1,8 +1,9 @@
 import { db, storage } from "@/firebase"
 import { doc, updateDoc } from "firebase/firestore"
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage"
+import { User } from "./interface"
 
-export const addAudioApi = async (user, file) => {
+export const addAudioApi = async (user: User, file: any) => {
   try {
     const storageRef = ref(storage, `users/${user.uid}/audios/${file.name}`)
 

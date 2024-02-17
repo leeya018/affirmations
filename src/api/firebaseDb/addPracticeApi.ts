@@ -1,8 +1,8 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore"
 import { db } from "@/firebase"
-import { formatDate } from "@/util"
+import { User } from "./interface"
 
-export const addPracticeApi = async (user, practice) => {
+export const addPracticeApi = async (user: User, practice: any) => {
   console.log(user)
   try {
     var today = new Date()

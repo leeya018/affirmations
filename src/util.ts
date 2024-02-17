@@ -1,23 +1,20 @@
-import { Timestamp } from "firebase/firestore"
 import moment from "moment"
-
-const { v4: uuidv4 } = require("uuid")
-
-export const NavNames = {
-  login: "/login",
-  home: "/",
-  view: "/view",
-  about: "/about",
+export const formatSeconds = (second) => {
+  const date = new Date(null)
+  date.setSeconds(second) // specify value for SECONDS here
+  const result = date.toISOString().slice(11, 19)
+  return result
+}
+export const getTime = (date) => {
+  return moment(date).format("hh:mm:ss a")
 }
 
-const sleep = (waitTime = null) => {
-  const time = waitTime ? waitTime : (Math.random() * 3 + 1) * 1000
-  return new Promise((resolve, reject) => {
-    return setTimeout(() => {
-      return resolve("done")
+export const sleep = async (time) =>
+  new Promise((resolve) =>
+    setTimeout(() => {
+      resolve()
     }, time)
-  })
-}
+  )
 
 export const getUrl = () => {
   return process.env.NODE_ENV === "development"
@@ -25,116 +22,48 @@ export const getUrl = () => {
     : process.env.NEXT_PUBLIC_BASIC_URL_PRODUCTION
 }
 
-export const isDev = () => process.env.NODE_ENV === "development"
+export const getDayArr = (month, year) => {
+  const date = new Date(year, month, 1)
+  const days = []
 
-const getDate = () => {
-  // add 3 hours for the isreal time zone
-  const miliseconds = new Date().getTime() + +3 * 60 * 60 * 1000
-  return new Date(miliseconds).toISOString()
+  while (date.getMonth() === month) {
+    days.push(new Date(date))
+    date.setDate(date.getDate() + 1)
+  }
+
+  return days
 }
 
-const minute = 1000 * 60
-const hour = 1000 * 60 * 60
-export const day = hour * 24
-const week = day * 7
-const second = 1000
-
-let likes = 0
-let passes = 0
-const likesLimit = 100
-const daysForDel = 8
-const waitTime = 10000
-
-export const intervalForever = async (callback: Function, rate: number) => {
-  let intervalNum = 0
-  while (true) {
-    intervalNum++
-    console.log(`interval ${callback.name}: ${intervalNum}  ${getDate()}`)
-    await callback()
-
-    await sleep(rate)
-  }
+export const formatDate = (date) => {
+  return moment(date).format("DD-MM-YYYY")
 }
-
-const convertPrediction = (prediction) => {
-  try {
-    const result = prediction.reduce((acc, item) => {
-      acc[item.class] = item.score
-      return acc
-    }, {})
-    return result
-  } catch (error) {
-    console.log("convertPrediction function", error.message)
-  }
+export const isSameDay = (d1, d2) => {
+  console.log("isSameDay", formatDate(moment(d1)), formatDate(moment(d2)))
+  return formatDate(moment(d1)) === formatDate(moment(d2))
+}
+export const navNames = {
+  home: "home",
+  insights: "insights",
+  calender: "calender",
+  settings: "settings",
 }
 
 export const modals = {
-  message: "message",
+  success_message: "success_message",
+  success_message_type: "success_message_type",
+  success_message_voice: "success_message_voice",
+  db_add_type: "db_add_type",
+  db_add_voice: "db_add_voice",
+  loading: "loading",
 }
 
-export const instructions = [
-  "more matches",
-  "more likes",
-  "send first messages",
-  "send first messages according the your search location",
-  "can select girls in your taste",
-  "choose according to preference of love between : trans , sex and relationship",
-]
-
-export const fromTimestampToMoment = (date: Timestamp) => {
-  const jsDate = date.toDate()
-  const dateStr = moment(jsDate).format("YYYY-MM-DD")
-  const momentDate = moment(dateStr, "YYYY-MM-DD")
-  return momentDate
+export const storageNames = {
+  audios: "audios",
+  images: "images",
 }
 
-export const lookForOptions: any = {
-  trans: "trans",
-  relationship: "relationship",
-  sex: "sex",
-}
-
-export const transWords = [
-  "trans",
-  "transgender",
-  "ladyboy",
-  "טרנס",
-  "טראנס",
-  "shemale",
-]
-
-export const relationshipWords = [
-  "Long-term partner",
-  "Long-term, open to short",
-  //  "New friends"
-]
-export const sexWords = [
-  "Still figuring it out",
-  "Long-term, open to short",
-  "Short-term, open to long",
-  "Short-term fun",
-]
-
-export const fileStarterNames = {
-  english: "english",
-  hebrew: "hebrew",
-  spanish: "spanish",
-}
-
-// export const relationship = [
-//   "long-term",
-//   "no hookups",
-//   "for serious",
-//   "family-oriented",
-//   "קשר אמיתי",
-//   "קשר רציני",
-//   "משפחה",
-// ]
-// export const sex = [
-//   "friends with benefits",
-//   "Nothing serious",
-//   "looking to meet new people",
-//   "not looking for anything serious",
-//   "קשר לא מחייב",
-//   "משהו קליל",
-// ]
+// export const NavNames = {
+//   home: "",
+//   login: "login",
+//   signup: "signup",
+// }
