@@ -1,9 +1,4 @@
 import { makeAutoObservable } from "mobx"
-export type User = {
-  userId: string
-  displayName: string | null
-  email: string | null
-}
 
 class UserS {
   user: User | null = null
