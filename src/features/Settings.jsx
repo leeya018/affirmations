@@ -135,7 +135,7 @@ function Settings() {
     <div
       className=" p-6 gap-5  rounded-xl w-[90vw] 
      h-[85vh] flex flex-col 
-     items-center  bg-white  
+     items-center  bg-color-white  
       text-lg font-bold shadow-md"
     >
       <div className=" flex flex-col gap-4  w-[90%] items-center md:w-[50%] p-4 md:p-5">

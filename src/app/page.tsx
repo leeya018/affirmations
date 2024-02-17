@@ -19,6 +19,7 @@ import Settings from "@/features/Settings"
 import { observer } from "mobx-react-lite"
 import { addPracticeApi } from "@/api"
 import { Practice } from "@/api/practice/interfaces"
+import LeftNav from "@/features/LeftNav"
 
 const index = () => {
   const [affirmations, setAffirmations] = useState([])
@@ -72,21 +73,13 @@ const index = () => {
         className="w-full h-[100vh] flex flex-col  items-center
       overflow-hidden bg-[#F3F3F7]  "
       >
-        {/* modals */}
-        {/* nav  */}
         <Nav />
-        <button className="" onClick={addPractice}>
-          addPractice
-        </button>
-        {/* all other */}
+
         <div
           className="w-full flex h-[85vh] mt-5 flex-col gap-2 
         md:flex-row md:justify-around md:gap-0 md:px-5 "
         >
-          {/* left */}
-          {/* do not touch */}
-          <Nav />
-          {/* middle */}
+          <LeftNav />
 
           {selectedName === navNames.home && (
             <div className="flex justify-around gap-4 md:w-[90vw]">

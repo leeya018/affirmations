@@ -6,7 +6,8 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/ui/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/hooks/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     colors: {
@@ -22,8 +23,7 @@ const config: Config = {
       "color-brown": "#604040",
       "color-green": "#58C99C",
       "color-icon-green": "#58C99C",
-      "color-icon-white": "#FFFFFF",
-      "color-white": "white",
+      "color-white": "#FFFFFF",
       "color-gray-nav": "#F4F5FB",
       "color-gray-category": "#F8F7F4",
       "color-purple": "#C62EFD",

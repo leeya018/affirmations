@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 export default function CloseButton({
   children,
@@ -9,11 +9,11 @@ export default function CloseButton({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`bg-white   border-2 border-[#e2e2e2] font-bold 
+      className={`bg-color-white   border-2 border-[#e2e2e2] font-bold 
       rounded-md py-2 px-4 text-black
      flex justify-center items-center`}
     >
       {children}
     </button>
-  );
+  )
 }

@@ -64,7 +64,7 @@ const Left = observer(
           />
           {/* first block */}
           <div
-            className="flex-1/4 bg-white shadow-md rounded-xl flex 
+            className="flex-1/4 bg-color-white shadow-md rounded-xl flex 
         flex-col gap-4 px-6 py-3"
           >
             <div className="text-lg font-bold">
@@ -99,7 +99,7 @@ const Left = observer(
             </div>
           </div>
           {/* second block */}
-          <div className=" bg-white shadow-md rounded-xl h-full ">
+          <div className=" bg-color-white shadow-md rounded-xl h-full ">
             <div className=" rounded-lg p-1">
               <ul
                 className="flex flex-col gap-2 pt-2 overflow-y-scroll 

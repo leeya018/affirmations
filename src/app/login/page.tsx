@@ -42,7 +42,7 @@ function login() {
       className="w-full  h-[100vh] flex  items-center justify-center 
    overflow-hidden bg-[#F3F3F7]"
     >
-      <div className="w-[80%] h-[80vh]  bg-white flex items-center  justify-between  rounded-xl shadow-xl p-3">
+      <div className="w-[80%] h-[80vh]  bg-color-white flex items-center  justify-between  rounded-xl shadow-xl p-3">
         <div className="relative flex flex-col  items-center justify-center h-full w-[90%] md:w-[50%] lg:w-[30%] ">
           {/* title */}
           <div className="absolute top-1 left-1 text-lg font-bold text-left w-full p-2">

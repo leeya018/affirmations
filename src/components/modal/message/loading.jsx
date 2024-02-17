@@ -13,7 +13,7 @@ const LoadingModal = observer(({ message, modalName, title }) => {
      } `}
     >
       <div
-        className={`relative bg-white flex flex-col items-center
+        className={`relative bg-color-white flex flex-col items-center
        justify-center w-[50vh] h-[30vh] border-2 border-[#e2e2e2]`}
       >
         <div className="text-xl font-bold text-center  text-[#35d08c]">

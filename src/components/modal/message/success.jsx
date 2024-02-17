@@ -16,7 +16,7 @@ const SuccessModal = observer(
      } `}
       >
         <div
-          className={`relative bg-white flex flex-col items-center
+          className={`relative bg-color-white flex flex-col items-center
        justify-between w-[50vh] h-[30vh] border-2 border-[#e2e2e2]`}
         >
           <div className="w-full flex justify-between items-center px-4 py-3 bg-[#F2F2F2] mx-10">
