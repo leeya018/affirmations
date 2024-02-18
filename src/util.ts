@@ -58,17 +58,6 @@ export const modals = {
   loading: "loading",
 }
 
-export const storageNames = {
-  audios: "audios",
-  images: "images",
-}
-
-// export const NavNames = {
-//   home: "",
-//   login: "login",
-//   signup: "signup",
-// }
-
 export const practiceType = {
   TYPE: "type",
   VOICE: "voice",

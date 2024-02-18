@@ -6,7 +6,7 @@ import SettingsButton from "@/ui/button/settings"
 import { userStore } from "@/mobx/userStore"
 import { observer } from "mobx-react-lite"
 import BasicSelect from "@/ui/basicSelect"
-import { folderNames, storageNames } from "@/util"
+import { folderNames } from "@/util"
 import { addFileApi, getFilesApi, updateAffirmationApi } from "@/api"
 import { messageStore } from "@/mobx/messageStore"
 import Alerts from "@/components/Alerts"
@@ -44,8 +44,8 @@ function Settings() {
     try {
       const { uid } = userStore.user
       const res = await Promise.all([
-        getFilesApi(uid, storageNames.images),
-        getFilesApi(uid, storageNames.audios),
+        getFilesApi(uid, folderNames.IMAGES),
+        getFilesApi(uid, folderNames.AUDIOS),
       ])
       console.log({ res })
       setImageItemOptions(res[0])
