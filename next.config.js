@@ -4,6 +4,7 @@ const nextConfig = {
   swcMinify: false,
   images: {
     domains: [
+      "firebasestorage.googleapis.com",
       "lh3.googleusercontent.com",
       "oaidalleapiprodscus.blob.core.windows.net",
       "https://affirmations-dev.netlify.app",

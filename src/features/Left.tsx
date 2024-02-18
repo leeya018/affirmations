@@ -12,46 +12,12 @@ import { messageStore } from "@/mobx/messageStore"
 import { Practice } from "@/api/practice/interfaces"
 
 const Left = observer(
-  ({
-    setAffirmations,
-    affirmations,
-    handleKeyDown,
-    inputRef,
-    setTxt,
-    txt,
-    addPractice,
-  }) => {
+  ({ affirmations, handleKeyDown, inputRef, setTxt, txt }) => {
     const [modalMessage, setModalMessage] = useState("")
-
-    useEffect(() => {
-      if (affirmations.length >= process.env.NEXT_PUBLIC_AFFIRMATION_LIM) {
-        ModalStore.openModal(modals.success_message_type)
-      }
-    }, [affirmations])
 
     return (
       <div className=" w-[45vw] shadow-rl h-[85vh] hidden lg:flex">
         <div className="w-full flex flex-col gap-4 h-full">
-          {modals.success_message_type === ModalStore.modalName && (
-            <SuccessModal
-              title={"Message type"}
-              modalName={modals.success_message_type}
-              message={modalMessage}
-              onClick={() => {
-                setAffirmations([])
-                ModalStore.closeModal()
-              }}
-              btnTxt={"Done"}
-            />
-          )}
-          <SuccessModal
-            title={"Done workout"}
-            modalName={modals.db_add_type}
-            message={"You finish the typing workout "}
-            onClick={() => addPractice(practiceType.TYPE)}
-            btnTxt={"Save Score"}
-          />
-          {/* first block */}
           <div
             className="flex-1/4 bg-white shadow-md rounded-xl flex 
         flex-col gap-4 px-6 py-3"
@@ -96,23 +62,21 @@ const Left = observer(
             scrollbar-thumb-rounded "
               >
                 {affirmations.length > 0 &&
-                  affirmations
-                    .sort((a, b) => new Date(b.date) - new Date(a.date))
-                    .map((affirmation, key) => (
-                      <li
-                        key={key}
-                        className="mx-10 p-3 flex flex-col  rounded-xl
+                  affirmations.reverse().map((affirmation, key) => (
+                    <li
+                      key={key}
+                      className="mx-10 p-3 flex flex-col  rounded-xl
                   font-semibold bg-[#F5F8FD] gap-1"
-                      >
-                        {/* <div className="text-xl">this is good</div>
+                    >
+                      {/* <div className="text-xl">this is good</div>
                     <div className="text-sm ">10:20:40</div> */}
-                        <div className="text-xl">{affirmation.name}</div>
-                        <div className="text-xl">
-                          {" "}
-                          {getTime(affirmation.date)}
-                        </div>
-                      </li>
-                    ))}
+                      <div className="text-xl">{affirmation.name}</div>
+                      <div className="text-xl">
+                        {" "}
+                        {getTime(affirmation.date)}
+                      </div>
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>

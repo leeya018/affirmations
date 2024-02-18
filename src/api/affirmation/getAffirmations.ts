@@ -21,6 +21,7 @@ export const getAffirmationsApi = async (uid: string) => {
     const querySnapshot = await getDocs(q)
     const affirmations = querySnapshot.docs.map((doc) => doc.data())
     console.log({ affirmations })
+    return affirmations.length > 0 ? affirmations[0] : null
   } catch (error: any) {
     console.log(error.message)
     throw error

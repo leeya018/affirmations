@@ -15,6 +15,7 @@ import SuccessButton from "@/ui/button/modal/success"
 import { AudioStore } from "@/mobx/audioStore"
 import { messageStore } from "@/mobx/messageStore"
 import { Practice } from "@/api/practice/interfaces"
+import { affirmationsStore } from "@/mobx/affirmationsStore"
 
 function Right({ affirmations, setAffirmations, addPractice }) {
   const [modalMessage, setModalMessage] = useState("")
@@ -27,12 +28,6 @@ function Right({ affirmations, setAffirmations, addPractice }) {
     }
   }, [AudioStore.time])
 
-  useEffect(() => {
-    if (userStore?.user?.audioAffirmation) {
-      AudioStore.setSound(userStore?.user?.audioAffirmation)
-    }
-  }, [userStore?.user?.audioAffirmation])
-
   const playSuggestion = () => {
     AudioStore.playSound()
     AudioStore.startTime()
@@ -44,48 +39,11 @@ function Right({ affirmations, setAffirmations, addPractice }) {
 
   return (
     <div className="   rounded-xl  flex flex-col items-center  gap-4 w-full  md:w-[45vw] md:h-[85vh]">
-      {/* <SuccessButton
-        onClick={async () => {
-          ModalStore.openModal(modals.success_message_voice)
-        }}
-      >
-        Done
-      </SuccessButton>
-      <SuccessButton
-        onClick={async () => {
-          ("affirmations", "[]")
-          setAffirmations([])
-        }}
-      >
-        Reset
-      </SuccessButton>
-      {
-        <SuccessModal
-          isVisble={EModalType.success === currModal}
-          message={"You finish the voice"}
-          onClick={() => addPracticeApi(user,{ voice: 0, type: 1 })}
-        />
-      } */}
       {/* <SuccessButton onClick={addPractice}>add practice</SuccessButton> */}
       <div className="p-6 bg-white w-full rounded-xl  shadow-md flex items-center justify-around text-lg font-bold">
         {/* first div */}
 
         <div className="flex justify-center items-center gap-2 w-full ">
-          <SuccessModal
-            title={"Message voice"}
-            modalName={modals.success_message_voice}
-            message={modalMessage}
-            onClick={() => ModalStore.closeModal()}
-            btnTxt={"Done"}
-          />
-          <SuccessModal
-            title={"Done workout"}
-            modalName={modals.db_add_voice}
-            message={"You finish the voice workout "}
-            onClick={() => addPractice(practiceType.TYPE)}
-            btnTxt={"Save Score"}
-          />
-
           <div className="flex justify-between  items-center gap-2 w-full">
             <div className="flex gap-2">
               <BiTime size={30} onClick={playSuggestion} />
@@ -130,7 +88,7 @@ function Right({ affirmations, setAffirmations, addPractice }) {
               affirmations.length /
               parseInt(process.env.NEXT_PUBLIC_AFFIRMATION_LIM),
           }}
-          src={userStore.user?.imageAffirmation}
+          src={affirmationsStore.affirmation?.imageUrl}
           // src={"/smile.png"}
         />
       </div>

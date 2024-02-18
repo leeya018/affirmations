@@ -17,29 +17,38 @@ import Calender from "@/components/Calender"
 import Graphs from "@/components/Graphs"
 import Settings from "@/features/Settings"
 import { observer } from "mobx-react-lite"
-import { addPracticeApi } from "@/api"
+import { addPracticeApi, getAffirmationsApi } from "@/api"
 import { Practice } from "@/api/practice/interfaces"
 import LeftNav from "@/features/LeftNav"
 import Alerts from "@/components/Alerts"
+import SuccessModal from "@/components/modal/message/success"
+import { affirmationsStore } from "@/mobx/affirmationsStore"
+import { AudioStore } from "@/mobx/audioStore"
 
 const index = () => {
-  const [affirmations, setAffirmations] = useState([])
-  // const [isClient, setIsClient] = useState(false)
   const { selectedName } = navStore
   const [txt, setTxt] = useState("")
+  const [affirmations, setAffirmations] = useState([])
   const inputRef = useRef(null)
-  const router = useRouter()
 
-  //   useEffect(() => {
-  //     if (affirmations.length == process.env.NEXT_PUBLIC_AFFIRMATION_LIM) {
-  //       ModalStore.openModal(modals.success_message)
-  //     }
-  //   }, [affirmations])
-  //   useEffect(() => {
-  //     if (affirmations.length == process.env.NEXT_PUBLIC_AFFIRMATION_LIM) {
-  //       ModalStore.openModal(modals.success_message)
-  //     }
-  //   }, [affirmations])
+  useEffect(() => {
+    if (userStore.user) {
+      getAffirmationsApi(userStore.user.uid)
+        .then((affirmation) => {
+          affirmationsStore.updateAffirmation(affirmation)
+          AudioStore.setSound(affirmation.audioUrl)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }, [userStore.user])
+
+  useEffect(() => {
+    if (affirmations.length >= process.env.NEXT_PUBLIC_AFFIRMATION_LIM) {
+      ModalStore.openModal(modals.db_add_type)
+    }
+  }, [affirmations])
 
   const handleKeyDown = (e) => {
     console.log("handleKeyDown")
@@ -70,6 +79,30 @@ const index = () => {
   return (
     <ProtectedRoute>
       <Alerts />
+      <div>
+        {modals.db_add_type === ModalStore.modalName && (
+          <SuccessModal
+            title={"Done workout"}
+            message={"You finish the typing workout "}
+            onClick={() => {
+              addPractice(practiceType.TYPE)
+              ModalStore.closeModal()
+            }}
+            btnTxt={"Save Score"}
+          />
+        )}
+        {modals.db_add_voice === ModalStore.modalName && (
+          <SuccessModal
+            title={"Done workout"}
+            message={"You finish the voice workout "}
+            onClick={() => {
+              addPractice(practiceType.VOICE)
+              ModalStore.closeModal()
+            }}
+            btnTxt={"Save Score"}
+          />
+        )}
+      </div>
       <div
         className="w-full h-[100vh] flex flex-col  items-center
       overflow-hidden bg-[#F3F3F7]  "
@@ -88,11 +121,9 @@ const index = () => {
           {selectedName === navNames.home && (
             <div className="flex justify-around gap-4 md:w-[90vw]">
               <Left
-                addPractice={addPractice}
                 handleKeyDown={handleKeyDown}
                 setTxt={setTxt}
                 affirmations={affirmations}
-                setAffirmations={setAffirmations}
                 txt={txt}
                 inputRef={inputRef}
               />

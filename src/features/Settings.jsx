@@ -10,6 +10,7 @@ import { folderNames } from "@/util"
 import { addFileApi, getFilesApi, updateAffirmationApi } from "@/api"
 import { messageStore } from "@/mobx/messageStore"
 import Alerts from "@/components/Alerts"
+import { affirmationsStore } from "@/mobx/affirmationsStore"
 
 function Settings() {
   const [affirmation, setAffirmation] = useState("")
@@ -48,8 +49,10 @@ function Settings() {
         getFilesApi(uid, folderNames.AUDIOS),
       ])
       console.log({ res })
+
       setImageItemOptions(res[0])
       setAudioItemOptions(res[1])
+
       messageStore.setMessage("resources has been loaded successfully", 200)
     } catch (error) {
       messageStore.setMessage("There was a problem loading the resources", 500)
@@ -91,7 +94,7 @@ function Settings() {
       )
       console.log({ downloadURL })
       await updateAffirmation({
-        imageAffirmation: downloadURL,
+        imageUrl: downloadURL,
       })
 
       messageStore.setMessage("Image added successfully", 200)
@@ -111,7 +114,7 @@ function Settings() {
         folderNames.AUDIOS
       )
       await updateAffirmation({
-        audioAffirmation: downloadURL,
+        audioUrl: downloadURL,
       })
 
       messageStore.setMessage("audio added successfully", 200)
@@ -168,7 +171,7 @@ function Settings() {
               name="images select"
             />
             <SettingsButton
-              onClick={() => updateAffirmation({ imageAffirmation: imageUrl })}
+              onClick={() => updateAffirmation({ imageUrl: imageUrl })}
               isDisabled={imageUrl === null}
             >
               Update Image
@@ -211,7 +214,7 @@ function Settings() {
               name="audio select"
             />
             <SettingsButton
-              onClick={() => updateAffirmation({ audioAffirmation: audioUrl })}
+              onClick={() => updateAffirmation({ audioUrl: audioUrl })}
               isDisabled={audioUrl === null}
             >
               Update Audio
