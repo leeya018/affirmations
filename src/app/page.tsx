@@ -75,7 +75,7 @@ const index = () => {
       overflow-hidden bg-[#F3F3F7]  "
       >
         <Nav />
-        <button onClick={() => addPractice(practiceType.VOICE)}>
+        <button onClick={() => addPractice(practiceType.TYPE)}>
           add pracice sound{" "}
         </button>
 

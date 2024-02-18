@@ -9,7 +9,7 @@ const newUser: User = {
   userId: "034802934890238",
   displayName: "lee",
   email: "lee@example.com",
-  //   createdDate: serverTimestamp(),
+  //   createdAt: serverTimestamp(),
 }
 export default function index() {
   return (

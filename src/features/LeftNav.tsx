@@ -28,8 +28,8 @@ const LeftNav = observer(() => {
         size={40}
         className={` ${
           selectedName === navNames.home
-            ? "text-nav_blue bg-nav_gray  bg-opacity-50"
-            : "text-nav_gray"
+            ? "text-blue bg-gray bg-opacity-50"
+            : ""
         } p-2 rounded-md cursor-pointer`}
       />
       <BsGraphUpArrow
@@ -40,8 +40,8 @@ const LeftNav = observer(() => {
         size={40}
         className={`${
           selectedName === navNames.insights
-            ? "text-nav_blue bg-nav_gray_offwhite bg-opacity-50"
-            : "text-nav_gray"
+            ? "text-blue bg-gray bg-opacity-50"
+            : ""
         } p-2 rounded-md cursor-pointer `}
       />
       <SlCalender
@@ -52,8 +52,8 @@ const LeftNav = observer(() => {
         size={40}
         className={`${
           selectedName === navNames.calender
-            ? "text-nav_blue bg-nav_gray_offwhite bg-opacity-50"
-            : "text-nav_gray"
+            ? "text-blue bg-gray bg-opacity-50"
+            : ""
         } p-2 rounded-md cursor-pointer `}
       />
       <IoSettingsOutline
@@ -64,8 +64,8 @@ const LeftNav = observer(() => {
         size={40}
         className={`${
           selectedName === navNames.settings
-            ? "text-nav_blue bg-nav_gray_offwhite bg-opacity-50"
-            : "text-nav_gray"
+            ? "text-blue bg-gray bg-opacity-50"
+            : ""
         } p-2 rounded-md cursor-pointer `}
       />
     </div>

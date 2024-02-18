@@ -5,6 +5,7 @@ import {
   doc,
   getDocs,
   query,
+  serverTimestamp,
   updateDoc,
   where,
 } from "firebase/firestore"
@@ -23,7 +24,11 @@ export const updateAffirmationApi = async (
     const q = query(collectionRef, where("userId", "==", uid))
     const querySnapshot = await getDocs(q)
     if (querySnapshot.empty) {
-      await addDoc(collectionRef, { userId: uid, ...affirmationInfo })
+      await addDoc(collectionRef, {
+        userId: uid,
+        createdAt: serverTimestamp(),
+        ...affirmationInfo,
+      })
       return
     }
     const docRef = querySnapshot.docs[0].ref

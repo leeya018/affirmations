@@ -5,5 +5,5 @@ export type Affirmation = {
   name: string
   imageUrl: string
   audioUrl: string
-  createdDate: Timestamp
+  createdAt?: Timestamp
 }

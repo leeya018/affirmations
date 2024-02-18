@@ -5,5 +5,5 @@ export type User = {
   displayName: string
   email: string
   photoURL: string
-  createdDate: Timestamp
+  createdAt?: Timestamp
 }

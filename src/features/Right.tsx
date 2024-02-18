@@ -18,7 +18,6 @@ import { Practice } from "@/api/practice/interfaces"
 
 function Right({ affirmations, setAffirmations, addPractice }) {
   const [modalMessage, setModalMessage] = useState("")
-  console.log("imageAffirmation", userStore.user?.imageAffirmation)
 
   useEffect(() => {
     if (AudioStore.time > process.env.NEXT_PUBLIC_AUDIO_LIM) {
