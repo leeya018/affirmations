@@ -108,9 +108,9 @@ const index = () => {
       overflow-hidden bg-[#F3F3F7]  "
       >
         <Nav />
-        <button onClick={() => addPractice(practiceType.TYPE)}>
+        {/* <button onClick={() => addPractice(practiceType.TYPE)}>
           add pracice sound{" "}
-        </button>
+        </button> */}
 
         <div
           className="w-full flex h-[85vh] mt-5 flex-col gap-2 
