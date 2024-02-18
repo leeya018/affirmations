@@ -16,7 +16,7 @@ import { AudioStore } from "@/mobx/audioStore"
 import { messageStore } from "@/mobx/messageStore"
 import { Practice } from "@/api/practice/interfaces"
 
-function Right({ affirmations, setAffirmations }) {
+function Right({ affirmations, setAffirmations, addPractice }) {
   const [modalMessage, setModalMessage] = useState("")
   console.log("imageAffirmation", userStore.user?.imageAffirmation)
 
@@ -42,25 +42,7 @@ function Right({ affirmations, setAffirmations }) {
     AudioStore.stopSound()
     AudioStore.stopTime()
   }
-  const addPractice = async () => {
-    try {
-      const newPractice: Practice = {
-        userId: userStore.user.uid,
-        affirmationId: "affirmationId1",
-        type: practiceType.VOICE,
-      }
-      const data = await addPracticeApi(userStore.user.uid, newPractice)
-      console.log(data)
-      setModalMessage("newPractice added successfully")
-      stopSuggestion()
-      AudioStore.setTime(0)
-      messageStore.setMessage("Practice added successfully", 200)
 
-      ModalStore.openModal(modals.success_message_voice)
-    } catch (error) {
-      messageStore.setMessage("Could not add Practice ", 500)
-    }
-  }
   return (
     <div className="   rounded-xl  flex flex-col items-center  gap-4 w-full  md:w-[45vw] md:h-[85vh]">
       {/* <SuccessButton
@@ -101,7 +83,7 @@ function Right({ affirmations, setAffirmations }) {
             title={"Done workout"}
             modalName={modals.db_add_voice}
             message={"You finish the voice workout "}
-            onClick={addPractice}
+            onClick={() => addPractice(practiceType.TYPE)}
             btnTxt={"Save Score"}
           />
 

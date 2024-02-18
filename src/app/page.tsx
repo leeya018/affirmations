@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-import { modals, navNames, practiceType } from "@/util"
+import { folderNames, modals, navNames, practiceType } from "@/util"
 
 import { useRouter } from "next/navigation"
 
@@ -20,6 +20,7 @@ import { observer } from "mobx-react-lite"
 import { addPracticeApi } from "@/api"
 import { Practice } from "@/api/practice/interfaces"
 import LeftNav from "@/features/LeftNav"
+import Alerts from "@/components/Alerts"
 
 const index = () => {
   const [affirmations, setAffirmations] = useState([])
@@ -40,23 +41,6 @@ const index = () => {
   //     }
   //   }, [affirmations])
 
-  const addPractice = async () => {
-    try {
-      const newPractice: Practice = {
-        userId: userStore.user?.uid,
-        affirmationId: "affirmationId1",
-        type: practiceType.TYPE,
-      }
-      const data = await addPracticeApi(userStore.user.uid, newPractice)
-      console.log(data)
-      messageStore.setMessage("Practice added successfully", 200)
-
-      ModalStore.openModal(modals.success_message)
-    } catch (error) {
-      messageStore.setMessage("Could not add Practice ", 500)
-    }
-  }
-
   const handleKeyDown = (e) => {
     console.log("handleKeyDown")
     console.log(e.code === "Enter")
@@ -67,13 +51,33 @@ const index = () => {
     }
   }
 
+  const addPractice = async (type: string) => {
+    try {
+      const newPractice: Practice = {
+        userId: userStore.user?.uid,
+        type,
+      }
+      const data = await addPracticeApi(userStore.user.uid, newPractice)
+      console.log(data)
+      messageStore.setMessage("Practice added successfully", 200)
+
+      // ModalStore.openModal(modals.success_message)
+    } catch (error) {
+      messageStore.setMessage("Could not add Practice ", 500)
+    }
+  }
+
   return (
     <ProtectedRoute>
+      <Alerts />
       <div
         className="w-full h-[100vh] flex flex-col  items-center
       overflow-hidden bg-[#F3F3F7]  "
       >
         <Nav />
+        <button onClick={() => addPractice(practiceType.VOICE)}>
+          add pracice sound{" "}
+        </button>
 
         <div
           className="w-full flex h-[85vh] mt-5 flex-col gap-2 
@@ -84,6 +88,7 @@ const index = () => {
           {selectedName === navNames.home && (
             <div className="flex justify-around gap-4 md:w-[90vw]">
               <Left
+                addPractice={addPractice}
                 handleKeyDown={handleKeyDown}
                 setTxt={setTxt}
                 affirmations={affirmations}
@@ -93,6 +98,7 @@ const index = () => {
               />
 
               <Right
+                addPractice={addPractice}
                 affirmations={affirmations}
                 setAffirmations={setAffirmations}
               />

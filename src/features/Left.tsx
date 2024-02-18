@@ -12,7 +12,15 @@ import { messageStore } from "@/mobx/messageStore"
 import { Practice } from "@/api/practice/interfaces"
 
 const Left = observer(
-  ({ setAffirmations, affirmations, handleKeyDown, inputRef, setTxt, txt }) => {
+  ({
+    setAffirmations,
+    affirmations,
+    handleKeyDown,
+    inputRef,
+    setTxt,
+    txt,
+    addPractice,
+  }) => {
     const [modalMessage, setModalMessage] = useState("")
 
     useEffect(() => {
@@ -20,25 +28,6 @@ const Left = observer(
         ModalStore.openModal(modals.success_message_type)
       }
     }, [affirmations])
-
-    const addPractice = async () => {
-      try {
-        const newPractice: Practice = {
-          userId: userStore.user.uid,
-          affirmationId: "affirmationId1",
-          type: practiceType.TYPE,
-        }
-        const practices = await addPracticeApi(userStore.user.uid, newPractice)
-        userStore.updateUser({ practices })
-
-        setAffirmations([])("affirmations", "[]")
-        setModalMessage("practice Added")
-        messageStore.setMessage("Practice added successfully", 200)
-        ModalStore.openModal(modals.success_message_type)
-      } catch (error) {
-        messageStore.setMessage("Could not add Practice ", 500)
-      }
-    }
 
     return (
       <div className=" w-[45vw] shadow-rl h-[85vh] hidden lg:flex">
@@ -59,7 +48,7 @@ const Left = observer(
             title={"Done workout"}
             modalName={modals.db_add_type}
             message={"You finish the typing workout "}
-            onClick={addPractice}
+            onClick={() => addPractice(practiceType.TYPE)}
             btnTxt={"Save Score"}
           />
           {/* first block */}

@@ -128,7 +128,6 @@ function Settings() {
       text-lg font-bold shadow-md"
     >
       <div className=" flex flex-col gap-4  w-[90%] items-center md:w-[50%] p-4 md:p-5">
-        <Alerts />
         {/* first */}
 
         <div className="flex flex-col items-center gap-2 md:mr-auto ">

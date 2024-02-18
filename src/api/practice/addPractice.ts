@@ -19,10 +19,10 @@ export const addPracticeApi = async (uid: string, practice: Practice) => {
     }
     const collectionRef = collection(db, "practices")
     const docRef = await addDoc(collectionRef, {
-      practice,
+      ...practice,
       createdAt: serverTimestamp(),
     })
-    console.log("practices added")
+    console.log("practices added successfully")
     return docRef.id
   } catch (error: any) {
     console.log(error.message)
