@@ -29,6 +29,7 @@
     ".next/types/**/*.ts",
     "src/app/page.tsx",
     "src/components/**/*.jsx",
+    "src/components/**/*.tsx",
     "src/ui/**/*.jsx",
     "src/mobx/**/*.js",
     "src/api/**/*.ts",
