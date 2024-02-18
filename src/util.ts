@@ -1,4 +1,6 @@
+import { Timestamp } from "firebase/firestore"
 import moment from "moment"
+
 export const formatSeconds = (second) => {
   const date = new Date(null)
   date.setSeconds(second) // specify value for SECONDS here
@@ -9,38 +11,21 @@ export const getTime = (date) => {
   return moment(date).format("hh:mm:ss a")
 }
 
-export const sleep = async (time) =>
-  new Promise((resolve) =>
-    setTimeout(() => {
-      resolve()
-    }, time)
-  )
-
 export const getUrl = () => {
   return process.env.NODE_ENV === "development"
     ? process.env.NEXT_PUBLIC_BASIC_URL
     : process.env.NEXT_PUBLIC_BASIC_URL_PRODUCTION
 }
 
-export const getDayArr = (month, year) => {
-  const date = new Date(year, month, 1)
-  const days = []
-
-  while (date.getMonth() === month) {
-    days.push(new Date(date))
-    date.setDate(date.getDate() + 1)
-  }
-
-  return days
-}
-
 export const formatDate = (date) => {
   return moment(date).format("DD-MM-YYYY")
 }
-export const isSameDay = (d1, d2) => {
-  console.log("isSameDay", formatDate(moment(d1)), formatDate(moment(d2)))
-  return formatDate(moment(d1)) === formatDate(moment(d2))
+
+export const formatDateTs = (timestamp: Timestamp) => {
+  const date = timestamp.toDate()
+  return moment(date).format("DD-MM-YYYY")
 }
+
 export const navNames = {
   home: "home",
   insights: "insights",
