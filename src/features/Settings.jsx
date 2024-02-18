@@ -65,11 +65,14 @@ function Settings() {
       setImage(event.target.files[0])
     }
   }
-  const updateAffirmation = async (userInfo) => {
+  const updateAffirmation = async (affirmationInfo) => {
     try {
-      console.log({ userInfo })
-      const data = await updateAffirmationApi(userStore.user.uid, userInfo)
-
+      console.log({ affirmationInfo })
+      const data = await updateAffirmationApi(
+        userStore.user.uid,
+        affirmationInfo
+      )
+      affirmationsStore.updateAffirmation(affirmationInfo)
       messageStore.setMessage("affirmation name updated successfully ", 200)
     } catch (error) {
       messageStore.setMessage("Failed to update affirmation name ", 500)
