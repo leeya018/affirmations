@@ -10,6 +10,7 @@ export const addFileApi = async (
   file: any,
   folderName: string
 ) => {
+  console.log({ uid, file, folderName })
   try {
     if (!isUserExist(uid)) {
       throw new Error(`User with id : ${uid} not found`)
@@ -21,9 +22,6 @@ export const addFileApi = async (
     const downloadURL = await getDownloadURL(storageRef)
 
     console.log(`File available at: ${downloadURL}`, db)
-    await updateAffirmationApi(uid, {
-      imageAffirmation: downloadURL,
-    })
 
     return downloadURL
   } catch (error: any) {

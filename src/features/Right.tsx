@@ -86,7 +86,7 @@ function Right({ affirmations, setAffirmations }) {
         />
       } */}
       {/* <SuccessButton onClick={addPractice}>add practice</SuccessButton> */}
-      <div className="p-6 bg-color-white w-full rounded-xl  shadow-md flex items-center justify-around text-lg font-bold">
+      <div className="p-6 bg-white w-full rounded-xl  shadow-md flex items-center justify-around text-lg font-bold">
         {/* first div */}
 
         <div className="flex justify-center items-center gap-2 w-full ">
@@ -130,7 +130,7 @@ function Right({ affirmations, setAffirmations }) {
       </div>
       {/* second div */}
       <div
-        className="p-6 bg-color-white w-full rounded-xl  relative h-full
+        className="p-6 bg-white w-full rounded-xl  relative h-full
         justify-center items-center shadow-md flex"
       >
         <div className="absolute top-1 left-1/2 -translate-x-1/2  flex items-center gap-2 ">

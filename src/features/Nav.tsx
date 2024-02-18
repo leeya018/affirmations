@@ -12,8 +12,6 @@ import { userStore } from "@/mobx/userStore"
 import { TooltipDefault } from "@/ui/Tooltip"
 
 const Nav = observer(() => {
-  const [photoURL, setPhotoURL] = useState("")
-  const [displayName, setDisplayName] = useState("")
   const router = useRouter()
 
   const logout = () => {
@@ -24,14 +22,14 @@ const Nav = observer(() => {
   }
   const getProfileImage = () => {
     // console.log(toJS(userStore.user))
-    if (photoURL) {
+    if (userStore.user.photoURL) {
       return (
         <Image
           alt="profile image"
           width={32}
           height={32}
           className="rounded-lg "
-          src={photoURL}
+          src={userStore.user.photoURL}
         />
       )
     } else {
@@ -44,14 +42,14 @@ const Nav = observer(() => {
   }
 
   return (
-    <div className="bg-color-white  py-2  w-full flex justify-between items-center text-black px-2 md:px-10">
+    <div className="bg-white  py-2  w-full flex justify-between items-center text-black px-2 md:px-10">
       <div className="flex items-center gap-2">
         <Image
-          alt="profile image"
+          alt="trophy image"
           width={32}
           height={32}
           className="rounded-lg "
-          src={"/trophy.png"}
+          src={"/images/trophy.png"}
         />
       </div>
       <div className="flex justify-between items-center  gap-4">
@@ -63,7 +61,7 @@ const Nav = observer(() => {
 
         <div className="">{getProfileImage()}</div>
 
-        <div className="font-medium">hello , {displayName}</div>
+        <div className="font-medium">hello , {userStore.user.displayName}</div>
       </div>
     </div>
   )

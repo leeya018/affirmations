@@ -20,7 +20,7 @@ function Settings() {
   const [imageUrl, setImageUrl] = useState("")
   const [audioItemOptions, setAudioItemOptions] = useState([])
   const [imageItemOptions, setImageItemOptions] = useState([])
-  const [file, setFile] = useState(null)
+  const [audio, setAudio] = useState(null)
   const [txtColor, setTxtColor] = useState({
     text: "text-green",
     image: "text-green",
@@ -65,77 +65,66 @@ function Settings() {
   const updateAffirmation = async (userInfo) => {
     try {
       console.log({ userInfo })
-      const data = await updateAffirmationApi(userStore, userInfo)
-      userStore.updateUser(userInfo)
-      console.log(data)
-      messageStore.setMessage("user update successfully ", 200)
+      const data = await updateAffirmationApi(userStore.user.uid, userInfo)
+
+      messageStore.setMessage("affirmation name updated successfully ", 200)
     } catch (error) {
-      messageStore.setMessage("Failed to update user", 500)
+      messageStore.setMessage("Failed to update affirmation name ", 500)
     }
   }
-  const onFileChange = (event) => {
+  const onAudioChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       setAffirmationStatus((prev) => ({ ...prev, file: "" }))
-      setFile(event.target.files[0])
-    }
-  }
-  const updateMessage = (type, message, isSuccess) => {
-    setAffirmationStatus((prev) => ({ ...prev, [type]: message }))
-    const textColor = isSuccess ? "text-green" : "text-red"
-    setTxtColor((prev) => ({ ...prev, [type]: textColor }))
-  }
-  const changeAffirmation = async () => {
-    try {
-      if (!affirmation) return
-      AsyncStore.setIsLoading(true)
-      await changeAffirmationApi(user, affirmation)
-      setIsAffirmationChanged(false)
-      userStore.updateUser({ affirmation })
-
-      AsyncStore.setIsLoading(false)
-
-      messageStore.setMessage("user update successfully successfully", 200)
-    } catch (error) {
-      messageStore.setMessage("Filed to update user", 500)
+      setAudio(event.target.files[0])
     }
   }
 
   const addImage = async () => {
     try {
       if (!image) {
-        throw new Error("You have to  choose file first")
+        throw new Error("Image not found")
       }
-      const downloadURL = await addImageApi(user, image)
-      userStore.updateUser({
+      const downloadURL = await addFileApi(
+        userStore.user.uid,
+        image,
+        folderNames.IMAGES
+      )
+      console.log({ downloadURL })
+      await updateAffirmation({
         imageAffirmation: downloadURL,
       })
 
       messageStore.setMessage("Image added successfully", 200)
     } catch (error) {
+      console.log(error)
       messageStore.setMessage("cannot upload image ", 500)
     }
   }
-  const addAudio = async (folderName) => {
+  const addAudio = async () => {
     try {
-      if (!file) {
-        updateMessage("audio", `you have to  choose audio file first `, false)
-
-        return null
+      if (!audio) {
+        throw new Error("You have to  choose file first")
       }
-      const downloadURL = await addFileApi(userStore.user.uid, file, folderName)
-      userStore.updateUser({
+      const downloadURL = await addFileApi(
+        userStore.user.uid,
+        audio,
+        folderNames.AUDIOS
+      )
+      await updateAffirmation({
         audioAffirmation: downloadURL,
       })
-      messageStore.setMessage("Audio added successfully", 200)
+
+      messageStore.setMessage("audio added successfully", 200)
     } catch (error) {
       messageStore.setMessage("cannot upload audio ", 500)
     }
   }
+
   return (
     <div
       className=" p-6 gap-5  rounded-xl w-[90vw] 
      h-[85vh] flex flex-col 
-     items-center  bg-color-white  
+     items-center  bg-white  
       text-lg font-bold shadow-md"
     >
       <div className=" flex flex-col gap-4  w-[90%] items-center md:w-[50%] p-4 md:p-5">
@@ -158,7 +147,7 @@ function Settings() {
               className="border-2 border-[#d4d6db] rounded-md w-[20rem] h-12 pr-2"
             />
             <SettingsButton
-              onClick={changeAffirmation}
+              onClick={() => updateAffirmation({ name: affirmation })}
               isDisabled={!isAffirmationChanged || affirmation.length === 0}
             >
               Update affirmation
@@ -195,7 +184,7 @@ function Settings() {
 
             <SettingsButton
               isDisabled={image === null}
-              onClick={() => addFileApi(folderNames.IMAGES)}
+              onClick={() => addImage(folderNames.IMAGES)}
             >
               Upload Image
             </SettingsButton>
@@ -223,7 +212,7 @@ function Settings() {
               name="audio select"
             />
             <SettingsButton
-              onClick={() => editUser({ audioAffirmation: audioUrl })}
+              onClick={() => updateAffirmation({ audioAffirmation: audioUrl })}
               isDisabled={audioUrl === null}
             >
               Update Audio
@@ -232,13 +221,13 @@ function Settings() {
           <div className="flex gap-2 items-center flex-col w-full md:flex-row">
             <input
               type="file"
-              onChange={onFileChange}
+              onChange={onAudioChange}
               className="filetype border-[#d4d6db] rounded-md w-[20rem] h-12 pr-2"
             />
 
             <SettingsButton
               onClick={() => addAudio(folderNames.AUDIOS)}
-              isDisabled={file === null}
+              isDisabled={audio === null}
             >
               Upload Audio
             </SettingsButton>

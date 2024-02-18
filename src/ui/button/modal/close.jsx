@@ -9,7 +9,7 @@ export default function CloseButton({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`bg-color-white   border-2 border-[#e2e2e2] font-bold 
+      className={`bg-white   border-2 border-[#e2e2e2] font-bold 
       rounded-md py-2 px-4 text-black
      flex justify-center items-center`}
     >
