@@ -4,7 +4,11 @@ import { Pie } from "react-chartjs-2"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
-export default function PieChart({ items }) {
+type PieChartProps = {
+  items: number[]
+}
+
+export default function PieChart({ items }: PieChartProps) {
   const data = {
     labels: [
       `type (${items[0]})`,

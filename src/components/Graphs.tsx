@@ -15,7 +15,7 @@ import { userStore } from "@/mobx/userStore"
 import { getPracticesApi } from "@/api"
 import moment from "moment"
 import StackChart from "./StackChart"
-import { Timestamp } from "firebase/firestore"
+
 import { Practice } from "@/api/practice/interfaces"
 import { formatDate, formatDateTs, practiceType } from "@/util"
 
@@ -26,7 +26,7 @@ const Graphs = observer(() => {
 
   useEffect(() => {
     getPracticesApi(userStore.user.uid, moment())
-      .then((practices) => {
+      .then((practices: any) => {
         console.log({ practices })
         const cItems = convertData(practices)
         console.log(cItems)
@@ -67,10 +67,12 @@ const Graphs = observer(() => {
       (p) => p.type === practiceType.VOICE
     )
     for (const tp of typePractices) {
+      if (!tp.createdAt) throw new Error("createdAt not defend")
       const formattedDate = formatDateTs(tp.createdAt)
       practiceDateObj[formattedDate].type = tp.amount
     }
     for (const vp of voicePractices) {
+      if (!vp.createdAt) throw new Error("createdAt not defend")
       practiceDateObj[formatDateTs(vp.createdAt)].voice = vp.amount
     }
     console.log({ practiceDateObj })
@@ -91,7 +93,7 @@ const Graphs = observer(() => {
       })
       console.log({ dataItems })
       return dataItems
-    } catch (error) {
+    } catch (error: any) {
       console.log(error.message)
     }
   }

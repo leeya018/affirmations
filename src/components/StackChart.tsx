@@ -40,13 +40,13 @@ const StackChart = observer<any>(({ items, name, label1, label2 }) => {
     datasets: [
       {
         label: label1,
-        data: items.map((item) => item.type),
+        data: items.map((item: any) => item.type),
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
         label: label2,
-        data: items.map((item) => item.voice),
+        data: items.map((item: any) => item.voice),
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },

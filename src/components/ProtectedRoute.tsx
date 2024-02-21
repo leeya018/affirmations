@@ -6,7 +6,11 @@ import { onAuthStateChanged } from "firebase/auth"
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from "react"
 
-export default function ProtectedRoute({ children }) {
+type ProtectedRouteProps = {
+  children: React.ReactNode
+}
+
+export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const router = useRouter()

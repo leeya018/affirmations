@@ -7,7 +7,7 @@ const nextConfig = {
       "firebasestorage.googleapis.com",
       "lh3.googleusercontent.com",
       "oaidalleapiprodscus.blob.core.windows.net",
-      "https://affirmations-dev.netlify.app",
+      "https://affirmations-deploy.netlify.app",
     ],
   },
   async headers() {
@@ -17,7 +17,7 @@ const nextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: `https://affirmations-dev.netlify.app`,
+            value: `https://affirmations-deploy.netlify.app`,
           },
         ],
       },

@@ -26,8 +26,8 @@ function login() {
     const provider = new GoogleAuthProvider()
     signInWithPopup(auth, provider)
       .then(async (UserCredentialImp) => {
-        const { email, displayName, uid } = UserCredentialImp.user
-        const newUser: User = { email, displayName, userId: uid }
+        const { email, displayName, uid, photoURL } = UserCredentialImp.user
+        const newUser: User = { email, displayName, userId: uid, photoURL }
         await addUserApi(newUser)
         router.push("/")
       })

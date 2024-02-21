@@ -1,4 +1,5 @@
-import { addAudioApi, addAudioFileApi } from "@/api"
+import { addAudioApi, addAudioFileApi, addFileApi } from "@/api"
+import { userStore } from "@/mobx/userStore"
 import axios from "axios"
 
 import React, { Component, useState } from "react"
@@ -25,7 +26,7 @@ const AddFileInput = () => {
 
     // Request made to the backend api
     // Send formData object
-    addAudioApi(user, selectedFile)
+    addFileApi(userStore.user.uid, selectedFile)
   }
 
   // File content to be displayed after

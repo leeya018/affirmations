@@ -1,13 +1,13 @@
 import { Timestamp } from "firebase/firestore"
 import moment from "moment"
 
-export const formatSeconds = (second) => {
-  const date = new Date(null)
+export const formatSeconds = (second: number) => {
+  const date = new Date()
   date.setSeconds(second) // specify value for SECONDS here
   const result = date.toISOString().slice(11, 19)
   return result
 }
-export const getTime = (date) => {
+export const getTime = (date: Timestamp) => {
   return moment(date).format("hh:mm:ss a")
 }
 
@@ -17,7 +17,7 @@ export const getUrl = () => {
     : process.env.NEXT_PUBLIC_BASIC_URL_PRODUCTION
 }
 
-export const formatDate = (date) => {
+export const formatDate = (date: Timestamp) => {
   return moment(date).format("DD-MM-YYYY")
 }
 

@@ -24,11 +24,12 @@ import Alerts from "@/components/Alerts"
 import SuccessModal from "@/components/modal/message/success"
 import { affirmationsStore } from "@/mobx/affirmationsStore"
 import { AudioStore } from "@/mobx/audioStore"
+import { Affirmation } from "@/api/affirmation/interfaces"
 
 const index = () => {
   const { selectedName } = navStore
   const [txt, setTxt] = useState("")
-  const [affirmations, setAffirmations] = useState([])
+  const [affirmations, setAffirmations] = useState<any[]>([])
   const inputRef = useRef(null)
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const index = () => {
       getAffirmationsApi(userStore.user.uid)
         .then((affirmation) => {
           affirmationsStore.updateAffirmation(affirmation)
+          if (!affirmation?.audioUrl) throw new Error("audio url is not exists")
           AudioStore.setSound(affirmation.audioUrl)
         })
         .catch((err) => {
@@ -45,17 +47,22 @@ const index = () => {
   }, [userStore.user])
 
   useEffect(() => {
-    if (affirmations.length >= process.env.NEXT_PUBLIC_AFFIRMATION_LIM) {
+    if (
+      affirmations.length >= Number(process.env.NEXT_PUBLIC_AFFIRMATION_LIM)
+    ) {
       ModalStore.openModal(modals.db_add_type)
     }
   }, [affirmations])
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: any) => {
     console.log("handleKeyDown")
     console.log(e.code === "Enter")
     if (e.code === "Enter") {
       if (txt.split(" ").length < 3) return null
-      setAffirmations((prev) => [...prev, { name: txt, date: new Date() }])
+      setAffirmations((prev: any[]) => [
+        ...prev,
+        { name: txt, date: new Date() },
+      ])
       setTxt("")
     }
   }

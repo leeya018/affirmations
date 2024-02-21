@@ -10,16 +10,18 @@ import { toJS } from "mobx"
 import { observer } from "mobx-react-lite"
 import { userStore } from "@/mobx/userStore"
 import { getPracticesApi } from "@/api"
+import { Practice } from "@/api/practice/interfaces"
+import { Dayjs } from "dayjs"
 const maxPoints = 3
 
 const Calender = observer(() => {
   const [chosenDate, setChosenDate] = useState(moment())
-  const [practiceItems, setPracticeItems] = useState([])
+  const [practiceItems, setPracticeItems] = useState<Practice[] | []>([])
 
   useEffect(() => {
     console.log(chosenDate.month())
     getPracticesApi(userStore.user.uid, chosenDate)
-      .then((practices) => {
+      .then((practices: any) => {
         console.log({ practices })
         setPracticeItems(practices)
       })
@@ -29,11 +31,11 @@ const Calender = observer(() => {
   }, [chosenDate])
 
   const convertPracticesTiGraph = () => {
-    const typeNum = practiceItems.filter(
-      (practice) => practice.type === practiceType.TYPE
+    const typeNum: number = practiceItems.filter(
+      (practice: Practice) => practice.type === practiceType.TYPE
     ).length
-    const voiceNum = practiceItems.filter(
-      (practice) => practice.type === practiceType.VOICE
+    const voiceNum: number = practiceItems.filter(
+      (practice: Practice) => practice.type === practiceType.VOICE
     ).length
 
     const month = chosenDate.month()
@@ -53,7 +55,8 @@ const Calender = observer(() => {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <StaticDatePicker
             orientation="portrait"
-            onChange={(value) => {
+            onChange={(value: Dayjs | null) => {
+              if (!value) throw new Error("value from calender is undefined")
               console.log("moment", moment(value.toDate()))
               setChosenDate(moment(value.toDate()))
             }}

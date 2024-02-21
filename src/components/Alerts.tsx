@@ -1,7 +1,9 @@
 import { observer } from "mobx-react-lite"
 import { messageStore } from "@/mobx/messageStore"
 import React, { useEffect } from "react"
-let timeoutInter = null
+
+let timeoutInter: any
+
 const Alerts = observer(() => {
   const { message, setMessage, status } = messageStore
   useEffect(() => {
@@ -11,7 +13,7 @@ const Alerts = observer(() => {
     return () => clearInterval(timeoutInter)
   }, [message])
 
-  const isSuccess = (status) => {
+  const isSuccess = (status: number) => {
     return status === 200 || status === 201
   }
   return (

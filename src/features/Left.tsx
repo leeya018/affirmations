@@ -10,8 +10,9 @@ import { observer } from "mobx-react-lite"
 import { addPracticeApi } from "@/api"
 import { messageStore } from "@/mobx/messageStore"
 import { Practice } from "@/api/practice/interfaces"
+import { Affirmation } from "@/api/affirmation/interfaces"
 
-const Left = observer(
+const Left = observer<any>(
   ({ affirmations, handleKeyDown, inputRef, setTxt, txt }) => {
     const [modalMessage, setModalMessage] = useState("")
 
@@ -62,21 +63,23 @@ const Left = observer(
             scrollbar-thumb-rounded "
               >
                 {affirmations.length > 0 &&
-                  affirmations.reverse().map((affirmation, key) => (
-                    <li
-                      key={key}
-                      className="mx-10 p-3 flex flex-col  rounded-xl
+                  affirmations
+                    .reverse()
+                    .map((affirmation: Affirmation, key: number) => (
+                      <li
+                        key={key}
+                        className="mx-10 p-3 flex flex-col  rounded-xl
                   font-semibold bg-[#F5F8FD] gap-1"
-                    >
-                      {/* <div className="text-xl">this is good</div>
+                      >
+                        {/* <div className="text-xl">this is good</div>
                     <div className="text-sm ">10:20:40</div> */}
-                      <div className="text-xl">{affirmation.name}</div>
-                      <div className="text-xl">
-                        {" "}
-                        {getTime(affirmation.date)}
-                      </div>
-                    </li>
-                  ))}
+                        <div className="text-xl">{affirmation.name}</div>
+                        <div className="text-xl">
+                          {" "}
+                          {/* {getTime(affirmation.createdAt)} */}
+                        </div>
+                      </li>
+                    ))}
               </ul>
             </div>
           </div>
