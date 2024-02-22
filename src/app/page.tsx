@@ -34,6 +34,7 @@ const index = () => {
 
   useEffect(() => {
     if (userStore.user) {
+      console.log(userStore.user)
       getAffirmationsApi(userStore.user.uid)
         .then((affirmation) => {
           affirmationsStore.updateAffirmation(affirmation)

@@ -22,14 +22,14 @@ const Nav = observer(() => {
   }
   const getProfileImage = () => {
     // console.log(toJS(userStore.user))
-    if (userStore.user.photoURL) {
+    if (userStore.user?.photoURL) {
       return (
         <Image
           alt="profile image"
           width={32}
           height={32}
           className="rounded-lg "
-          src={userStore.user.photoURL}
+          src={userStore.user?.photoURL}
         />
       )
     } else {

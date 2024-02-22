@@ -17,7 +17,8 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
-      console.log(user)
+      console.log("unSub")
+      console.log({ user })
       if (user) {
         setIsAuthenticated(true)
         userStore.setUser(user)
