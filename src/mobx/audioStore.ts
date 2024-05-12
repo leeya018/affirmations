@@ -1,41 +1,44 @@
-import { makeAutoObservable } from "mobx"
-import React, { useState, useEffect } from "react"
-import { Howl } from "howler"
+import { makeAutoObservable } from "mobx";
+import React, { useState, useEffect } from "react";
+import { Howl } from "howler";
 
-let timesInterval: any = null
+let timesInterval: any = null;
 class Audio {
-  sound: any = null
-  time: number = 0
+  sound: any = null;
+  time: number = 0;
 
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this);
   }
   startTime() {
     timesInterval = setInterval(() => {
-      this.time += 1
-    }, 1000)
+      this.time += 1;
+    }, 1000);
   }
 
   stopTime() {
-    clearInterval(timesInterval)
+    clearInterval(timesInterval);
   }
   setTime(newTime: number) {
-    this.time = newTime
+    this.time = newTime;
   }
 
   setSound = (initialFileName: string) => {
     this.sound = new Howl({
       src: [initialFileName],
       loop: true,
-    })
-  }
+    });
+  };
 
   playSound = () => {
-    this.sound.play()
-  }
+    this.sound.play();
+  };
 
   stopSound = () => {
-    this.sound.stop()
-  }
+    this.sound.stop();
+  };
+  pauseSound = () => {
+    this.sound.pause();
+  };
 }
-export const AudioStore = new Audio()
+export const AudioStore = new Audio();

@@ -1,42 +1,45 @@
-import React, { useEffect, useState } from "react"
-import Image from "next/image"
-import { AiOutlinePlayCircle } from "react-icons/ai"
-import { BiTime } from "react-icons/bi"
-import { LiaStopCircle } from "react-icons/lia"
-import Timer from "../components/Timer"
-import SuccessModal from "../components/modal/message/success"
-import { addPracticeApi } from "@/api"
-import { ModalStore } from "@/mobx/modalStore"
-import { modals, practiceType } from "@/util"
-import { userStore } from "@/mobx/userStore"
-import { observer } from "mobx-react-lite"
-import { TfiAnnouncement } from "react-icons/tfi"
-import SuccessButton from "@/ui/button/modal/success"
-import { AudioStore } from "@/mobx/audioStore"
-import { messageStore } from "@/mobx/messageStore"
-import { Practice } from "@/api/practice/interfaces"
-import { affirmationsStore } from "@/mobx/affirmationsStore"
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { AiOutlinePlayCircle } from "react-icons/ai";
+import { BiTime } from "react-icons/bi";
+import { LiaStopCircle } from "react-icons/lia";
+import Timer from "../components/Timer";
+import SuccessModal from "../components/modal/message/success";
+import { addPracticeApi } from "@/api";
+import { ModalStore } from "@/mobx/modalStore";
+import { modals, practiceType } from "@/util";
+import { userStore } from "@/mobx/userStore";
+import { observer } from "mobx-react-lite";
+import { TfiAnnouncement } from "react-icons/tfi";
+import SuccessButton from "@/ui/button/modal/success";
+import { AudioStore } from "@/mobx/audioStore";
+import { messageStore } from "@/mobx/messageStore";
+import { Practice } from "@/api/practice/interfaces";
+import { affirmationsStore } from "@/mobx/affirmationsStore";
 
 const Right = observer<any>(
   ({ affirmations, setAffirmations, addPractice }) => {
-    const [modalMessage, setModalMessage] = useState("")
+    const [modalMessage, setModalMessage] = useState("");
+    const [isPlaying, setIsPlaying] = useState(false);
 
     useEffect(() => {
       if (AudioStore.time > Number(process.env.NEXT_PUBLIC_AUDIO_LIM)) {
-        AudioStore.stopTime()
-        AudioStore.stopSound()
-        ModalStore.openModal(modals.db_add_voice)
+        AudioStore.stopTime();
+        AudioStore.stopSound();
+        ModalStore.openModal(modals.db_add_voice);
       }
-    }, [AudioStore.time])
+    }, [AudioStore.time]);
 
     const playSuggestion = () => {
-      AudioStore.playSound()
-      AudioStore.startTime()
-    }
+      AudioStore.playSound();
+      AudioStore.startTime();
+      setIsPlaying(true);
+    };
     const stopSuggestion = () => {
-      AudioStore.stopSound()
-      AudioStore.stopTime()
-    }
+      AudioStore.pauseSound();
+      AudioStore.stopTime();
+      setIsPlaying(false);
+    };
 
     return (
       <div className="   rounded-xl  flex flex-col items-center  gap-4 w-full  md:w-[45vw] md:h-[85vh]">
@@ -52,7 +55,7 @@ const Right = observer<any>(
               </div>
 
               <div>{"my affirmation sound"}</div>
-              {AudioStore.sound?.playing() ? (
+              {isPlaying ? (
                 <LiaStopCircle
                   size={30}
                   className="cursor-pointer text-[#CFCFD0]"
@@ -94,7 +97,7 @@ const Right = observer<any>(
           />
         </div>
       </div>
-    )
+    );
   }
-)
-export default Right
+);
+export default Right;
