@@ -17,11 +17,15 @@ const nextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: `http://localhost:3000`,
+            value: "*", // Allows all origins
           },
           {
-            key: "Access-Control-Allow-Origin",
-            value: `http://affirmations-deploy-9e634.netlify.app`,
+            key: "Access-Control-Allow-Methods",
+            value: "GET,POST,PUT,DELETE,OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "X-Requested-With, Content-Type, Authorization",
           },
         ],
       },
