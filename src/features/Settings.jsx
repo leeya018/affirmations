@@ -41,6 +41,8 @@ function Settings() {
     getSources();
   }, []);
 
+  // console.log({ imageS });
+
   const getSources = async () => {
     try {
       const { uid } = userStore.user;
@@ -48,8 +50,8 @@ function Settings() {
         getFilesApi(uid, folderNames.IMAGES),
         getFilesApi(uid, folderNames.AUDIOS),
       ]);
-      console.log({ res });
-
+      console.log({ res, info: res[0]?.url });
+      setImageUrl(res[0][0]?.url);
       setImageItemOptions(res[0]);
       setAudioItemOptions(res[1]);
 
@@ -196,11 +198,11 @@ function Settings() {
               Upload Image
             </SettingsButton>
             <Image
-              width={32}
-              height={32}
+              width={200}
+              height={200}
               className="rounded-lg "
               alt="preview image"
-              src={image ? URL.createObjectURL(image) : ""}
+              src={image ? URL.createObjectURL(image) : imageUrl}
             />
           </div>
           <SettingsAlert
