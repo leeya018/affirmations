@@ -22,6 +22,7 @@ const Right = observer<any>(
     const [modalMessage, setModalMessage] = useState("");
     const [isPlaying, setIsPlaying] = useState(false);
 
+    console.log({ imageUrl: affirmationsStore.affirmation?.imageUrl });
     useEffect(() => {
       if (AudioStore.time > Number(process.env.NEXT_PUBLIC_AUDIO_LIM)) {
         AudioStore.stopTime();
