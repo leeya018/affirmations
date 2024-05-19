@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react"
-import { BiTime } from "react-icons/bi"
-import { SiCounterstrike } from "react-icons/si"
-import { getTime, modals, practiceType } from "@/util"
-import { ModalStore } from "@/mobx/modalStore"
-import SuccessModal from "@/components/modal/message/success"
+import React, { useEffect, useState } from "react";
+import { BiTime } from "react-icons/bi";
+import { SiCounterstrike } from "react-icons/si";
+import { getTime, modals, practiceType } from "@/util";
+import { ModalStore } from "@/mobx/modalStore";
+import SuccessModal from "@/components/modal/message/success";
 
-import { userStore } from "@/mobx/userStore"
-import { observer } from "mobx-react-lite"
-import { addPracticeApi } from "@/api"
-import { messageStore } from "@/mobx/messageStore"
-import { Practice } from "@/api/practice/interfaces"
-import { Affirmation } from "@/api/affirmation/interfaces"
+import { userStore } from "@/mobx/userStore";
+import { observer } from "mobx-react-lite";
+import { addPracticeApi } from "@/api";
+import { messageStore } from "@/mobx/messageStore";
+import { Practice } from "@/api/practice/interfaces";
+import { Affirmation } from "@/api/affirmation/interfaces";
+import { affirmationsStore } from "@/mobx/affirmationsStore";
 
 const Left = observer<any>(
   ({ affirmations, handleKeyDown, inputRef, setTxt, txt }) => {
-    const [modalMessage, setModalMessage] = useState("")
+    const [modalMessage, setModalMessage] = useState("");
 
     return (
       <div className=" w-[45vw] shadow-rl h-[85vh] hidden lg:flex">
@@ -27,7 +28,7 @@ const Left = observer<any>(
               {userStore.user?.affirmation}
             </div>
             <div className="flex justify-end items-center gap-3">
-              <div className="h-full mr-auto  w-full">
+              <div className="h-full mr-auto flex flex-col   w-full">
                 <input
                   dir="rtl"
                   ref={inputRef}
@@ -38,6 +39,7 @@ const Left = observer<any>(
                   placeholder="Type your short suggestion"
                   className="border-2 border-[#d4d6db]  rounded-md w-[90%] h-10 pr-2"
                 />
+                <span>{affirmationsStore.affirmation?.name}</span>
               </div>
               <div className="flex justify-end items-center gap-6">
                 {/* first item */}
@@ -85,7 +87,7 @@ const Left = observer<any>(
           </div>
         </div>
       </div>
-    )
+    );
   }
-)
-export default Left
+);
+export default Left;

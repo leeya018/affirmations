@@ -1,130 +1,130 @@
-import React, { use, useEffect, useRef, useState } from "react"
-import Image from "next/image"
+import React, { use, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
-import { AsyncStore } from "@/mobx/asyncStore"
-import SettingsButton from "@/ui/button/settings"
-import { userStore } from "@/mobx/userStore"
-import { observer } from "mobx-react-lite"
-import BasicSelect from "@/ui/basicSelect"
-import { folderNames } from "@/util"
-import { addFileApi, getFilesApi, updateAffirmationApi } from "@/api"
-import { messageStore } from "@/mobx/messageStore"
-import Alerts from "@/components/Alerts"
-import { affirmationsStore } from "@/mobx/affirmationsStore"
+import { AsyncStore } from "@/mobx/asyncStore";
+import SettingsButton from "@/ui/button/settings";
+import { userStore } from "@/mobx/userStore";
+import { observer } from "mobx-react-lite";
+import BasicSelect from "@/ui/basicSelect";
+import { folderNames } from "@/util";
+import { addFileApi, getFilesApi, updateAffirmationApi } from "@/api";
+import { messageStore } from "@/mobx/messageStore";
+import Alerts from "@/components/Alerts";
+import { affirmationsStore } from "@/mobx/affirmationsStore";
 
 function Settings() {
-  const [affirmation, setAffirmation] = useState("")
-  const [isAffirmationChanged, setIsAffirmationChanged] = useState(false)
-  const inputRef = useRef(null)
-  const [image, setImage] = useState(null)
-  const [audioUrl, setAudioUrl] = useState("")
-  const [imageUrl, setImageUrl] = useState("")
-  const [audioItemOptions, setAudioItemOptions] = useState([])
-  const [imageItemOptions, setImageItemOptions] = useState([])
-  const [audio, setAudio] = useState(null)
+  const [affirmation, setAffirmation] = useState("");
+  const [isAffirmationChanged, setIsAffirmationChanged] = useState(false);
+  const inputRef = useRef(null);
+  const [image, setImage] = useState(null);
+  const [audioUrl, setAudioUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [audioItemOptions, setAudioItemOptions] = useState([]);
+  const [imageItemOptions, setImageItemOptions] = useState([]);
+  const [audio, setAudio] = useState(null);
   const [txtColor, setTxtColor] = useState({
     text: "text-green",
     image: "text-green",
     audio: "text-green",
-  })
+  });
   const [affirmationStatus, setAffirmationStatus] = useState({
     text: "",
     image: "",
     audio: "",
-  })
+  });
 
   useEffect(() => {
-    setAffirmation(userStore.user?.affirmation)
-  }, [userStore.user])
+    setAffirmation(userStore.user?.affirmation);
+  }, [userStore.user]);
 
   useEffect(() => {
-    getSources()
-  }, [])
+    getSources();
+  }, []);
 
   const getSources = async () => {
     try {
-      const { uid } = userStore.user
+      const { uid } = userStore.user;
       const res = await Promise.all([
         getFilesApi(uid, folderNames.IMAGES),
         getFilesApi(uid, folderNames.AUDIOS),
-      ])
-      console.log({ res })
+      ]);
+      console.log({ res });
 
-      setImageItemOptions(res[0])
-      setAudioItemOptions(res[1])
+      setImageItemOptions(res[0]);
+      setAudioItemOptions(res[1]);
 
-      messageStore.setMessage("resources has been loaded successfully", 200)
+      messageStore.setMessage("resources has been loaded successfully", 200);
     } catch (error) {
-      messageStore.setMessage("There was a problem loading the resources", 500)
+      messageStore.setMessage("There was a problem loading the resources", 500);
     }
-  }
+  };
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      setAffirmationStatus((prev) => ({ ...prev, image: "" }))
-      setImage(event.target.files[0])
+      setAffirmationStatus((prev) => ({ ...prev, image: "" }));
+      setImage(event.target.files[0]);
     }
-  }
+  };
   const updateAffirmation = async (affirmationInfo) => {
     try {
-      console.log({ affirmationInfo })
+      console.log({ affirmationInfo });
       const data = await updateAffirmationApi(
         userStore.user.uid,
         affirmationInfo
-      )
-      affirmationsStore.updateAffirmation(affirmationInfo)
-      messageStore.setMessage("affirmation name updated successfully ", 200)
+      );
+      affirmationsStore.updateAffirmation(affirmationInfo);
+      messageStore.setMessage("affirmation name updated successfully ", 200);
     } catch (error) {
-      messageStore.setMessage("Failed to update affirmation name ", 500)
+      messageStore.setMessage("Failed to update affirmation name ", 500);
     }
-  }
+  };
   const onAudioChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      setAffirmationStatus((prev) => ({ ...prev, file: "" }))
-      setAudio(event.target.files[0])
+      setAffirmationStatus((prev) => ({ ...prev, file: "" }));
+      setAudio(event.target.files[0]);
     }
-  }
+  };
 
   const addImage = async () => {
     try {
       if (!image) {
-        throw new Error("Image not found")
+        throw new Error("Image not found");
       }
       const downloadURL = await addFileApi(
         userStore.user.uid,
         image,
         folderNames.IMAGES
-      )
-      console.log({ downloadURL })
+      );
+      console.log({ downloadURL });
       await updateAffirmation({
         imageUrl: downloadURL,
-      })
+      });
 
-      messageStore.setMessage("Image added successfully", 200)
+      messageStore.setMessage("Image added successfully", 200);
     } catch (error) {
-      console.log(error)
-      messageStore.setMessage("cannot upload image ", 500)
+      console.log(error);
+      messageStore.setMessage("cannot upload image ", 500);
     }
-  }
+  };
   const addAudio = async () => {
     try {
       if (!audio) {
-        throw new Error("You have to  choose file first")
+        throw new Error("You have to  choose file first");
       }
       const downloadURL = await addFileApi(
         userStore.user.uid,
         audio,
         folderNames.AUDIOS
-      )
+      );
       await updateAffirmation({
         audioUrl: downloadURL,
-      })
+      });
 
-      messageStore.setMessage("audio added successfully", 200)
+      messageStore.setMessage("audio added successfully", 200);
     } catch (error) {
-      messageStore.setMessage("cannot upload audio ", 500)
+      messageStore.setMessage("cannot upload audio ", 500);
     }
-  }
+  };
 
   return (
     <div
@@ -144,13 +144,15 @@ function Settings() {
               type="text"
               value={affirmation}
               onChange={(e) => {
-                setAffirmationStatus((prev) => ({ ...prev, text: "" }))
-                setAffirmation(e.target.value)
-                setIsAffirmationChanged(true)
+                setAffirmationStatus((prev) => ({ ...prev, text: "" }));
+                setAffirmation(e.target.value);
+                setIsAffirmationChanged(true);
               }}
               placeholder="Type your short suggestion "
               className="border-2 border-[#d4d6db] rounded-md w-[20rem] h-12 pr-2"
             />
+            <div>{affirmationsStore.affirmation?.name}</div>
+
             <SettingsButton
               onClick={() => updateAffirmation({ name: affirmation })}
               isDisabled={!isAffirmationChanged || affirmation.length === 0}
@@ -245,10 +247,10 @@ function Settings() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-export default observer(Settings)
+export default observer(Settings);
 
 function SettingsAlert({ txtColor, text }) {
-  return <div className={`h-5 w-full ${txtColor}`}>{text}</div>
+  return <div className={`h-5 w-full ${txtColor}`}>{text}</div>;
 }

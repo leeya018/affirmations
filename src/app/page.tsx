@@ -32,6 +32,12 @@ const index = () => {
   const [affirmations, setAffirmations] = useState<any[]>([]);
   const inputRef = useRef(null);
 
+  // useEffect(() => {
+  //   if (userStore.user?.uid) {
+  //     addPractice("type");
+  //   }
+  // }, [userStore.user?.uid]);
+
   useEffect(() => {
     if (userStore.user) {
       console.log(userStore.user);
@@ -81,6 +87,7 @@ const index = () => {
 
       // ModalStore.openModal(modals.success_message)
     } catch (error) {
+      console.log(error);
       messageStore.setMessage("Could not add Practice ", 500);
     }
   };
