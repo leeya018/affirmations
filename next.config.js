@@ -19,6 +19,10 @@ const nextConfig = {
             key: "Access-Control-Allow-Origin",
             value: `http://localhost:3000`,
           },
+          {
+            key: "Access-Control-Allow-Origin",
+            value: `http://affirmations-deploy-9e634.netlify.app`,
+          },
         ],
       },
     ];
