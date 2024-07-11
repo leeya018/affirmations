@@ -150,109 +150,126 @@ function Settings() {
 
   return (
     <div className="p-6 gap-5 rounded-xl w-[90vw] h-[85vh] flex flex-col items-center bg-white text-lg font-bold shadow-md">
-      <div className="flex flex-col gap-4 w-[90%] items-center md:w-[50%] p-4 md:p-5">
-        {/* Affirmation Input */}
-        <div className="flex flex-col items-center gap-2 w-full">
-          <div className="flex gap-2 items-center flex-col w-full md:flex-row">
-            <div className="flex flex-col">
-              <input
-                dir="rtl"
-                ref={inputRef}
-                type="text"
-                value={affirmation}
-                onChange={(e) => {
-                  setAffirmationStatus((prev) => ({ ...prev, text: "" }));
-                  setAffirmation(e.target.value);
-                  setIsAffirmationChanged(true);
-                }}
-                placeholder="Type your short suggestion"
-                className=" border-gray-300 rounded-md w-full h-12 px-2 border-2"
-              />
-              <div className="text-gray-700">
-                {affirmationsStore.affirmation?.name}
+      <div className="flex justify-between">
+        <div className="flex flex-col gap-4 w-[90%] items-center md:w-[50%] p-4 md:p-5">
+          {/* Affirmation Input */}
+          <div className="flex flex-col items-center gap-2 w-full">
+            <div className="flex gap-2 items-center flex-col w-full md:flex-row">
+              <div className="flex flex-col">
+                <input
+                  dir="rtl"
+                  ref={inputRef}
+                  type="text"
+                  value={affirmation}
+                  onChange={(e) => {
+                    setAffirmationStatus((prev) => ({ ...prev, text: "" }));
+                    setAffirmation(e.target.value);
+                    setIsAffirmationChanged(true);
+                  }}
+                  placeholder="Type your short suggestion"
+                  className=" border-gray-300 rounded-md w-full h-12 px-2 border-2"
+                />
+                <div className="text-gray-700">
+                  {affirmationsStore.affirmation?.name}
+                </div>
               </div>
+              <SettingsButton
+                onClick={() => updateAffirmation({ name: affirmation })}
+                isDisabled={!isAffirmationChanged || affirmation.length === 0}
+              >
+                Update Affirmation
+              </SettingsButton>
             </div>
-            <SettingsButton
-              onClick={() => updateAffirmation({ name: affirmation })}
-              isDisabled={!isAffirmationChanged || affirmation.length === 0}
-            >
-              Update Affirmation
-            </SettingsButton>
+            <SettingsAlert
+              text={affirmationStatus.text}
+              txtColor={txtColor.text}
+            />
           </div>
-          <SettingsAlert
-            text={affirmationStatus.text}
-            txtColor={txtColor.text}
-          />
-        </div>
 
-        {/* Image Selection */}
-        <div className="flex flex-col items-center gap-2 w-full">
-          <div className="flex gap-2 items-center flex-col w-full md:flex-row">
-            <BasicSelect
-              className="w-full md:w-36"
-              handleChange={setImageUrl}
-              value={imageUrl}
-              options={imageItemOptions}
-              name="Image Select"
-            />
-            <SettingsButton
-              onClick={() => updateAffirmation({ imageUrl })}
-              isDisabled={!imageUrl}
-            >
-              Update Image
-            </SettingsButton>
-          </div>
-          <div className="flex gap-2 items-center flex-col w-full md:flex-row">
-            <input
-              type="file"
-              onChange={onImageChange}
-              className=" border-gray-300 rounded-md w-full h-12 px-2"
-            />
-            <SettingsButton isDisabled={!image} onClick={addImage}>
-              Upload Image
-            </SettingsButton>
-            {imageUrl && (
-              <Image
-                width={200}
-                height={200}
-                className="rounded-lg"
-                alt="preview image"
-                src={image ? URL.createObjectURL(image) : imageUrl}
+          {/* Image Selection */}
+          <div className="flex flex-col items-center gap-2 w-full">
+            <div className="flex gap-2 items-center flex-col w-full md:flex-row">
+              <BasicSelect
+                className="w-full md:w-36"
+                handleChange={setImageUrl}
+                value={imageUrl}
+                options={imageItemOptions}
+                name="Image Select"
               />
-            )}
+              <SettingsButton
+                onClick={() => updateAffirmation({ imageUrl })}
+                isDisabled={!imageUrl}
+              >
+                Update Image
+              </SettingsButton>
+            </div>
+            <div className="flex gap-2 items-center flex-col w-full md:flex-row">
+              <input
+                type="file"
+                onChange={onImageChange}
+                className=" border-gray-300 rounded-md w-full h-12 px-2"
+              />
+              <SettingsButton isDisabled={!image} onClick={addImage}>
+                Upload Image
+              </SettingsButton>
+              {imageUrl && (
+                <Image
+                  width={200}
+                  height={200}
+                  className="rounded-lg"
+                  alt="preview image"
+                  src={image ? URL.createObjectURL(image) : imageUrl}
+                />
+              )}
+            </div>
+            <SettingsAlert
+              text={affirmationStatus.image}
+              txtColor={txtColor.image}
+            />
           </div>
-          <SettingsAlert
-            text={affirmationStatus.image}
-            txtColor={txtColor.image}
-          />
+
+          {/* Audio Selection */}
+          <div className="flex flex-col items-center gap-2 w-full">
+            <div className="flex gap-2 items-center flex-col w-full md:flex-row">
+              <BasicSelect
+                className="w-full md:w-36"
+                handleChange={setAudioUrl}
+                value={audioUrl}
+                options={audioItemOptions}
+                name="Audio Select"
+              />
+              <SettingsButton
+                onClick={() => updateAffirmation({ audioUrl })}
+                isDisabled={!audioUrl}
+              >
+                Update Audio
+              </SettingsButton>
+            </div>
+            <div className="flex gap-2 items-center flex-col w-full md:flex-row">
+              <input
+                type="file"
+                onChange={onAudioChange}
+                className=" border-gray-300 rounded-md w-full h-12 px-2"
+              />
+              <SettingsButton isDisabled={!audio} onClick={addAudio}>
+                Upload Audio
+              </SettingsButton>
+            </div>
+          </div>
         </div>
 
-        {/* Audio Selection */}
-        <div className="flex flex-col items-center gap-2 w-full">
-          <div className="flex gap-2 items-center flex-col w-full md:flex-row">
-            <BasicSelect
-              className="w-full md:w-36"
-              handleChange={setAudioUrl}
-              value={audioUrl}
-              options={audioItemOptions}
-              name="Audio Select"
-            />
-            <SettingsButton
-              onClick={() => updateAffirmation({ audioUrl })}
-              isDisabled={!audioUrl}
-            >
-              Update Audio
-            </SettingsButton>
-          </div>
-          <div className="flex gap-2 items-center flex-col w-full md:flex-row">
-            <input
-              type="file"
-              onChange={onAudioChange}
-              className=" border-gray-300 rounded-md w-full h-12 px-2"
-            />
-            <SettingsButton isDisabled={!audio} onClick={addAudio}>
-              Upload Audio
-            </SettingsButton>
+        <div>
+          <div>how to use</div>
+          <div className="youtube-embed">
+            <iframe
+              width="560"
+              height="315"
+              src={`https://www.youtube.com/embed/afgUEzSmNuE`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="Embedded YouTube Video"
+            ></iframe>
           </div>
         </div>
       </div>
