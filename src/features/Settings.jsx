@@ -129,16 +129,10 @@ function Settings() {
   };
 
   return (
-    <div
-      className=" p-6 gap-5  rounded-xl w-[90vw] 
-     h-[85vh] flex flex-col 
-     items-center  bg-white  
-      text-lg font-bold shadow-md"
-    >
-      <div className=" flex flex-col gap-4  w-[90%] items-center md:w-[50%] p-4 md:p-5">
-        {/* first */}
-
-        <div className="flex flex-col items-center gap-2 md:mr-auto ">
+    <div className="p-6 gap-5 rounded-xl w-[90vw] h-[85vh] flex flex-col items-center bg-white text-lg font-bold shadow-md">
+      <div className="flex flex-col gap-4 w-[90%] items-center md:w-[50%] p-4 md:p-5">
+        {/* Affirmation Input */}
+        <div className="flex flex-col items-center gap-2 w-full">
           <div className="flex gap-2 items-center flex-col w-full md:flex-row">
             <input
               dir="rtl"
@@ -150,16 +144,15 @@ function Settings() {
                 setAffirmation(e.target.value);
                 setIsAffirmationChanged(true);
               }}
-              placeholder="Type your short suggestion "
-              className="border-2 border-[#d4d6db] rounded-md w-[20rem] h-12 pr-2"
+              placeholder="Type your short suggestion"
+              className=" border-gray-300 rounded-md w-full h-12 px-2"
             />
             <div>{affirmationsStore.affirmation?.name}</div>
-
             <SettingsButton
               onClick={() => updateAffirmation({ name: affirmation })}
               isDisabled={!isAffirmationChanged || affirmation.length === 0}
             >
-              Update affirmation
+              Update Affirmation
             </SettingsButton>
           </div>
           <SettingsAlert
@@ -167,19 +160,20 @@ function Settings() {
             txtColor={txtColor.text}
           />
         </div>
-        {/* second */}
-        <div className="flex flex-col items-center gap-2 md:mr-auto ">
+
+        {/* Image Selection */}
+        <div className="flex flex-col items-center gap-2 w-full">
           <div className="flex gap-2 items-center flex-col w-full md:flex-row">
             <BasicSelect
-              className="w-36 h-full box-content"
+              className="w-full md:w-36"
               handleChange={setImageUrl}
               value={imageUrl}
               options={imageItemOptions}
-              name="images select"
+              name="Image Select"
             />
             <SettingsButton
-              onClick={() => updateAffirmation({ imageUrl: imageUrl })}
-              isDisabled={imageUrl === null}
+              onClick={() => updateAffirmation({ imageUrl })}
+              isDisabled={!imageUrl}
             >
               Update Image
             </SettingsButton>
@@ -188,41 +182,40 @@ function Settings() {
             <input
               type="file"
               onChange={onImageChange}
-              className="filetype  border-[#d4d6db] rounded-md w-[20rem] h-12 pr-2"
+              className=" border-gray-300 rounded-md w-full h-12 px-2"
             />
-
-            <SettingsButton
-              isDisabled={image === null}
-              onClick={() => addImage(folderNames.IMAGES)}
-            >
+            <SettingsButton isDisabled={!image} onClick={addImage}>
               Upload Image
             </SettingsButton>
-            <Image
-              width={200}
-              height={200}
-              className="rounded-lg "
-              alt="preview image"
-              src={image ? URL.createObjectURL(image) : imageUrl}
-            />
+            {imageUrl && (
+              <Image
+                width={200}
+                height={200}
+                className="rounded-lg"
+                alt="preview image"
+                src={image ? URL.createObjectURL(image) : imageUrl}
+              />
+            )}
           </div>
           <SettingsAlert
             text={affirmationStatus.image}
             txtColor={txtColor.image}
           />
         </div>
-        {/* third */}
-        <div className="  flex flex-col items-center gap-2  md:mr-auto">
+
+        {/* Audio Selection */}
+        <div className="flex flex-col items-center gap-2 w-full">
           <div className="flex gap-2 items-center flex-col w-full md:flex-row">
             <BasicSelect
-              className="w-36 h-full box-content"
+              className="w-full md:w-36"
               handleChange={setAudioUrl}
               value={audioUrl}
               options={audioItemOptions}
-              name="audio select"
+              name="Audio Select"
             />
             <SettingsButton
-              onClick={() => updateAffirmation({ audioUrl: audioUrl })}
-              isDisabled={audioUrl === null}
+              onClick={() => updateAffirmation({ audioUrl })}
+              isDisabled={!audioUrl}
             >
               Update Audio
             </SettingsButton>
@@ -231,17 +224,12 @@ function Settings() {
             <input
               type="file"
               onChange={onAudioChange}
-              className="filetype border-[#d4d6db] rounded-md w-[20rem] h-12 pr-2"
+              className=" border-gray-300 rounded-md w-full h-12 px-2"
             />
-
-            <SettingsButton
-              onClick={() => addAudio(folderNames.AUDIOS)}
-              isDisabled={audio === null}
-            >
+            <SettingsButton isDisabled={!audio} onClick={addAudio}>
               Upload Audio
             </SettingsButton>
           </div>
-
           <SettingsAlert
             text={affirmationStatus.audio}
             txtColor={txtColor.audio}

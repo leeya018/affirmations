@@ -1,39 +1,42 @@
-"use client"
-import { auth } from "@/firebase"
-import { userStore } from "@/mobx/userStore"
-import { navNames } from "@/util"
-import { onAuthStateChanged } from "firebase/auth"
-import { useRouter } from "next/navigation"
-import React, { useEffect, useState } from "react"
+"use client";
+import React, { FC, useEffect, useState } from "react";
+import { auth } from "@/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { observer } from "mobx-react-lite";
+import { userStore } from "@/mobx/userStore";
+import { findUserApi } from "@/api/user/findUser";
 
 type ProtectedRouteProps = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const [isLoading, setIsLoading] = useState(true)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const router = useRouter()
+const ProtectedRoute: FC<ProtectedRouteProps> = observer(({ children }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    const unSub = onAuthStateChanged(auth, (user) => {
-      console.log("unSub")
-      console.log({ user })
+    const unSub = onAuthStateChanged(auth, async (user) => {
+      console.log(user);
       if (user) {
-        setIsAuthenticated(true)
-        userStore.setUser(user)
+        setIsAuthenticated(true);
+        userStore.setUser(user);
+        const userData = await findUserApi(user.uid);
+        userStore.updateUser(userData);
       } else {
-        userStore.setUser(null)
-        router.push(navNames.login)
+        userStore.setUser(null);
+        router.push("/login");
       }
-      setIsLoading(false)
-    })
+      setIsLoading(false);
+    });
 
-    return () => unSub()
-  }, [])
+    return () => unSub();
+  }, []);
 
   if (isLoading) {
-    return <div>Loading ....</div>
+    return <div>Loading ....</div>;
   }
-  return isAuthenticated ? <div>{children}</div> : null
-}
+  return isAuthenticated ? <div>{children}</div> : null;
+});
+export default ProtectedRoute;

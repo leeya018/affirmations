@@ -25,6 +25,7 @@ import SuccessModal from "@/components/modal/message/success";
 import { affirmationsStore } from "@/mobx/affirmationsStore";
 import { AudioStore } from "@/mobx/audioStore";
 import { Affirmation } from "@/api/affirmation/interfaces";
+import { toJS } from "mobx";
 
 const index = () => {
   const { selectedName } = navStore;
@@ -40,8 +41,8 @@ const index = () => {
 
   useEffect(() => {
     if (userStore.user) {
-      console.log(userStore.user);
-      getAffirmationsApi(userStore.user.uid)
+      console.log(toJS(userStore.user));
+      getAffirmationsApi(userStore.user?.uid)
         .then((affirmation) => {
           affirmationsStore.updateAffirmation(affirmation);
           if (!affirmation?.audioUrl)

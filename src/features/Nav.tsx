@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react"
-import Image from "next/image"
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
 
-import Person2Icon from "@mui/icons-material/Person2"
-import { observer } from "mobx-react-lite"
-import { signOut } from "firebase/auth"
-import { auth } from "@/firebase"
-import { useRouter } from "next/navigation"
-import { IoMdExit } from "react-icons/io"
+import Person2Icon from "@mui/icons-material/Person2";
+import { observer } from "mobx-react-lite";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase";
+import { useRouter } from "next/navigation";
+import { IoMdExit } from "react-icons/io";
 
-import { userStore } from "@/mobx/userStore"
-import { TooltipDefault } from "@/ui/Tooltip"
+import { userStore } from "@/mobx/userStore";
+import { TooltipDefault } from "@/ui/Tooltip";
 
 const Nav = observer(() => {
-  const router = useRouter()
+  const router = useRouter();
 
   const logout = () => {
-    signOut(auth)
-    userStore.setUser(null)
+    signOut(auth);
+    userStore.setUser(null);
 
-    router.push("/login")
-  }
+    router.push("/login");
+  };
   const getProfileImage = () => {
     // console.log(toJS(userStore.user))
     if (userStore.user?.photoURL) {
@@ -31,15 +31,15 @@ const Nav = observer(() => {
           className="rounded-lg "
           src={userStore.user?.photoURL}
         />
-      )
+      );
     } else {
       return (
         <div className="flex gap-2 p-2  ">
           <Person2Icon className="w-10 h-10   ml-auto cursor-pointer" />
         </div>
-      )
+      );
     }
-  }
+  };
 
   return (
     <div className="bg-white  py-2  w-full flex justify-between items-center text-black px-2 md:px-10">
@@ -61,10 +61,10 @@ const Nav = observer(() => {
 
         <div className="">{getProfileImage()}</div>
 
-        <div className="font-medium">hello , {userStore.user.displayName}</div>
+        <div className="font-medium">hello , {userStore.user?.displayName}</div>
       </div>
     </div>
-  )
-})
+  );
+});
 
-export default Nav
+export default Nav;

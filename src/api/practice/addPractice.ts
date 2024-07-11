@@ -12,12 +12,12 @@ import {
 } from "firebase/firestore";
 import { db } from "@/firebase";
 import { Practice } from "./interfaces";
-import { isUserExist } from "../user/isUserExist";
 import moment from "moment";
+import { isUserExistApi } from "../user/isUserExist";
 
 export const addPracticeApi = async (uid: string, practice: Practice) => {
   try {
-    if (!isUserExist(uid)) {
+    if (!isUserExistApi(uid)) {
       throw new Error(`User with id : ${uid} not found`);
     }
 
