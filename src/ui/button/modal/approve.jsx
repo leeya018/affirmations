@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 export default function ApproveButton({
   children,
@@ -10,11 +10,11 @@ export default function ApproveButton({
       onClick={onClick}
       disabled={isLoading}
       className={`${
-        isLoading ? "bg-gray" : "bg-[#35d08c]"
+        isLoading ? "bg-gray-300" : "bg-[#35d08c]"
       } border-[#e2e2e2] mb-2  border-2  rounded-md  py-2 px-4 text-white 
-    font-semibold flex justify-center items-center bg-red `}
+    font-semibold flex justify-center items-center bg-red-500 `}
     >
       {children}
     </button>
-  )
+  );
 }

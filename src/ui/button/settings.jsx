@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 export default function SettingsButton({
   children,
@@ -12,10 +12,10 @@ export default function SettingsButton({
       className={`border-white text-white border-2
       rounded-md   py-1 px-4 font-semibold
     flex justify-center items-center  ${
-      isDisabled ? "bg-nav_gray_offwhite" : "bg-blue hover:bg-opacity-90"
+      isDisabled ? "bg-gray-300" : "bg-blue-500 hover:bg-opacity-90"
     } `}
     >
       {children}
     </button>
-  )
+  );
 }

@@ -9,7 +9,6 @@ import BasicSelect from "@/ui/basicSelect";
 import { folderNames } from "@/util";
 import { addFileApi, getFilesApi, updateAffirmationApi } from "@/api";
 import { messageStore } from "@/mobx/messageStore";
-import Alerts from "@/components/Alerts";
 import { affirmationsStore } from "@/mobx/affirmationsStore";
 
 function Settings() {
@@ -75,6 +74,14 @@ function Settings() {
         affirmationInfo
       );
       affirmationsStore.updateAffirmation(affirmationInfo);
+
+      if (affirmationInfo.imageUrl) {
+        setImageUrl("");
+      } else if (affirmationInfo.audioUrl) {
+        setAudioUrl("");
+      } else if (affirmationInfo.name) {
+        setAffirmation("");
+      }
       messageStore.setMessage("affirmation name updated successfully ", 200);
     } catch (error) {
       messageStore.setMessage("Failed to update affirmation name ", 500);
@@ -92,26 +99,37 @@ function Settings() {
       if (!image) {
         throw new Error("Image not found");
       }
+      if (!image.type.includes("image")) {
+        throw new Error("you have to upload an image ");
+      }
       const downloadURL = await addFileApi(
         userStore.user.uid,
         image,
         folderNames.IMAGES
       );
+
       console.log({ downloadURL });
       await updateAffirmation({
         imageUrl: downloadURL,
       });
 
+      setImage(null);
+
       messageStore.setMessage("Image added successfully", 200);
     } catch (error) {
       console.log(error);
-      messageStore.setMessage("cannot upload image ", 500);
+      messageStore.setMessage(error.message, 500);
+    } finally {
+      setImage(null);
     }
   };
   const addAudio = async () => {
     try {
       if (!audio) {
         throw new Error("You have to  choose file first");
+      }
+      if (!audio.type.includes("audio")) {
+        throw new Error("you have to choose an audio file");
       }
       const downloadURL = await addFileApi(
         userStore.user.uid,
@@ -124,7 +142,9 @@ function Settings() {
 
       messageStore.setMessage("audio added successfully", 200);
     } catch (error) {
-      messageStore.setMessage("cannot upload audio ", 500);
+      messageStore.setMessage(error.message, 500);
+    } finally {
+      setAudio(null);
     }
   };
 
@@ -134,20 +154,24 @@ function Settings() {
         {/* Affirmation Input */}
         <div className="flex flex-col items-center gap-2 w-full">
           <div className="flex gap-2 items-center flex-col w-full md:flex-row">
-            <input
-              dir="rtl"
-              ref={inputRef}
-              type="text"
-              value={affirmation}
-              onChange={(e) => {
-                setAffirmationStatus((prev) => ({ ...prev, text: "" }));
-                setAffirmation(e.target.value);
-                setIsAffirmationChanged(true);
-              }}
-              placeholder="Type your short suggestion"
-              className=" border-gray-300 rounded-md w-full h-12 px-2"
-            />
-            <div>{affirmationsStore.affirmation?.name}</div>
+            <div className="flex flex-col">
+              <input
+                dir="rtl"
+                ref={inputRef}
+                type="text"
+                value={affirmation}
+                onChange={(e) => {
+                  setAffirmationStatus((prev) => ({ ...prev, text: "" }));
+                  setAffirmation(e.target.value);
+                  setIsAffirmationChanged(true);
+                }}
+                placeholder="Type your short suggestion"
+                className=" border-gray-300 rounded-md w-full h-12 px-2 border-2"
+              />
+              <div className="text-gray-700">
+                {affirmationsStore.affirmation?.name}
+              </div>
+            </div>
             <SettingsButton
               onClick={() => updateAffirmation({ name: affirmation })}
               isDisabled={!isAffirmationChanged || affirmation.length === 0}
@@ -230,10 +254,6 @@ function Settings() {
               Upload Audio
             </SettingsButton>
           </div>
-          <SettingsAlert
-            text={affirmationStatus.audio}
-            txtColor={txtColor.audio}
-          />
         </div>
       </div>
     </div>

@@ -1,21 +1,21 @@
-import { observer } from "mobx-react-lite"
-import { messageStore } from "@/mobx/messageStore"
-import React, { useEffect } from "react"
+import { observer } from "mobx-react-lite";
+import { messageStore } from "@/mobx/messageStore";
+import React, { useEffect } from "react";
 
-let timeoutInter: any
+let timeoutInter: any;
 
 const Alerts = observer(() => {
-  const { message, setMessage, status } = messageStore
+  const { message, setMessage, status } = messageStore;
   useEffect(() => {
     timeoutInter = setTimeout(() => {
-      setMessage("", 0)
-    }, 3000)
-    return () => clearInterval(timeoutInter)
-  }, [message])
+      setMessage("", 0);
+    }, 3000);
+    return () => clearInterval(timeoutInter);
+  }, [message]);
 
   const isSuccess = (status: number) => {
-    return status === 200 || status === 201
-  }
+    return status === 200 || status === 201;
+  };
   return (
     <div
       className={`${
@@ -24,13 +24,13 @@ const Alerts = observer(() => {
     >
       <div
         className={`${
-          isSuccess(status) ? "bg-green" : "bg-red"
+          isSuccess(status) ? "bg-green-500" : "bg-red-500"
         } w-full flex justify-center items-center h-full bg-opacity-75`}
       >
         {message}
       </div>
     </div>
-  )
-})
+  );
+});
 
-export default Alerts
+export default Alerts;

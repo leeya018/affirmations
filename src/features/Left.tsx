@@ -39,7 +39,15 @@ const Left = observer<any>(
                   placeholder="Type your short suggestion"
                   className="border-2 border-[#d4d6db]  rounded-md w-[90%] h-10 pr-2"
                 />
-                <span>{affirmationsStore.affirmation?.name}</span>
+                <div className="flex flex-col">
+                  <span className="font-bold text-xl mt-2 ">
+                    {affirmationsStore.affirmation?.name}
+                  </span>
+                  <div className="mt-5 bg-yellow-100 ">
+                    attention: you have to have at least 4 words and then press
+                    enter
+                  </div>
+                </div>
               </div>
               <div className="flex justify-end items-center gap-6">
                 {/* first item */}
